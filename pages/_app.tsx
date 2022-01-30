@@ -1,8 +1,10 @@
 import '../styles/globals.css'
+import { Provider } from 'react-redux';
 import type { AppProps } from 'next/app'
+import { store } from '../src/store/store';
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+function CalorieTracker({ Component, pageProps }: AppProps) {
+  return <Provider store={store}><Component {...pageProps} /></Provider>;
 }
 
-export default MyApp
+export default CalorieTracker;
