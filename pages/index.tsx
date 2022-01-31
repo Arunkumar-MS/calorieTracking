@@ -1,23 +1,42 @@
-import type { NextPage } from 'next'
+import type { NextPage } from 'next';
+import dynamic from 'next/dynamic';
+
+import React from 'react';
 import Layout from '@Layout/index';
 import { CalorieTrackerCard } from 'src/component/calorieTrackerCard';
 import axios from "axios";
 import cookies from 'cookies'
+import {
+  useAppDispatch,
+} from '@Store/hooks';
+import { updateUser } from '@Reducers/userSlice/userSlice';
+import { Props as HomePageProps } from '@Pages/home';
+
+const UserFlow = dynamic(() => import('../src/component/userFlow/userFlow'));
 
 
-const Home: NextPage = () => {
+type Props = NextPage & HomePageProps;
+
+const Home = (props: Props) => {
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    dispatch(updateUser(props.user))
+  }, []);
+
+  const renderAdminFlow = () => {
+
+  }
+  const renderUserFlow = () => {
+    if (props.user.role === 'user') {
+      return <UserFlow />
+    }
+  }
+
   return (
     <Layout>
-      <div className='md:flex md:justify-between'>
-        <div className='md:w-2/12'>
-          <CalorieTrackerCard />
-        </div>
-        <div className="md:w-10/12 mt-2 md:m-2 md:mt-0">
-          <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6">
-            <div className="border-4 border-dashed border-gray-200 rounded-lg h-96" />
-          </div>
-        </div>
-      </div>
+      {renderUserFlow()}
+      {renderAdminFlow()}
     </Layout>
 
   )
@@ -33,7 +52,7 @@ export async function getServerSideProps(ctx: any) {
       }
     });
     return {
-      props: { user: user.data },
+      props: { user: { ...user.data, userId: user.data['_id'] } },
     }
   } catch (e) {
     const { res } = ctx;

@@ -20,6 +20,8 @@
       "@Layout/*": ["src/layout/*"],
       "@Store/*": ["src/store/*"],
       "@Service/*": ["src/service/*"],
+      "@Reducers/*": ["src/reducers/*"],
+      "@Component/*": ["src/component/*"],
     },
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

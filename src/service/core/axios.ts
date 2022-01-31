@@ -8,7 +8,6 @@ const httpClient = axios.create({
 
 httpClient.interceptors.request.use(function (config: any) {
   const token = cookies.get('token');
-  console.log('token', token);
   if (token) {
     config.headers.Authorization = token;
   }

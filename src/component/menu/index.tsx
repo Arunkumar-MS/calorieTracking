@@ -2,12 +2,18 @@ import React from "react";
 import { MenuItem } from "./menuItem";
 import { useRouter } from 'next/router';
 import cookies from "js-cookie";
+import {
+    useAppSelector,
+  } from '@Store/hooks';
+import { selectUser } from "@Reducers/userSlice/userSlice";
+
 
 
 export const Menu = () => {
     const [isOpen, setIsOpen] = React.useState(false);
     const router = useRouter();
-    
+    const user = useAppSelector(selectUser);
+
     const signOut = () => {
         cookies.remove('token');
         router.push('./login');
@@ -16,7 +22,7 @@ export const Menu = () => {
     const renderMenuItems = () => {
         return (
             <>
-                <MenuItem title="Hi! Arun" onClick={(e) => console.log(e)} />
+                <MenuItem title={`Hi! ${user.name}`} />
                 <MenuItem title="Track" onClick={(e) => console.log(e)} />
                 <MenuItem title="Sign out" onClick={signOut} />
             </>

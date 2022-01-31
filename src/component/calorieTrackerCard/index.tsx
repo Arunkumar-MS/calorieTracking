@@ -1,9 +1,13 @@
+import FoodEntry from "@Component/foodEntry/foodEntry";
 import React from "react";
 import { PlusCircle } from "src/svgs/plusCircle.svg";
 
+const circumference = 30 * 2 * Math.PI;
+
 export const CalorieTrackerCard = () => {
-    const circumference = 30 * 2 * Math.PI;
+    const [openFoodModal, setOpenFoodModal] = React.useState(false);
     return (
+        <>
         <div className='p-2 flex items-center bg-white shadow justify-between md:flex-col flex-row'>
             <div className='flex items-center md:flex-col flex-row'>
                 <div className="flex items-center justify-center md:flex-col flex-row">
@@ -15,9 +19,11 @@ export const CalorieTrackerCard = () => {
                 </div>
                 <div>Eat upto 2100 Cal</div>
             </div>
-            <div className='flex items-center md:mt-3'>
-                <PlusCircle className="h-8 w-8" />
+            <div className='flex items-center md:mt-3' >
+                <PlusCircle className="h-8 w-8" onClick={()=>setOpenFoodModal(!openFoodModal)}/>
             </div>
         </div>
+        {openFoodModal && <FoodEntry  onClose={()=>setOpenFoodModal(!openFoodModal)}/> }
+        </>
     )
 }
