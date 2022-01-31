@@ -3,7 +3,7 @@ import {
     PayloadAction,
 } from '@reduxjs/toolkit';
 import type { RootState } from '@Store/store';
-import { User } from '@Pages/home';
+import { User } from '@Pages/home.types';
 
 
 const initialState: User = {

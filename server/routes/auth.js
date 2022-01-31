@@ -7,7 +7,6 @@ router.get("/getUser", async (req, res) => {
 
     const authToken = req.get('Authorization');
 
-    console.log('authToken', authToken);
     if (!authToken) {
         res.status(400).send('Invalid token');
         return
