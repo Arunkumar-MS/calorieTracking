@@ -38,7 +38,7 @@ const FoodEntry: FC<FoodEntryProps> = ({ onClose }) => {
     const [isNutritionLoading, setNutritionLoading] = React.useState(false);
     const [isNutritionDetailsLoading, setNutritionDetailsLoading] = React.useState(false);
     const [foodName, setFoodName] = React.useState('');
-
+    const [searchTerm, setSearchTerm] = React.useState('');
 
     const optimizedFetch = React.useCallback(throttle((query) => {
         setNutritionLoading(true);
@@ -52,6 +52,7 @@ const FoodEntry: FC<FoodEntryProps> = ({ onClose }) => {
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         const query = e.target.value;
         query && optimizedFetch(query);
+        setSearchTerm(query);
         if (!query) {
             setNutritionList([]);
         }
@@ -77,6 +78,10 @@ const FoodEntry: FC<FoodEntryProps> = ({ onClose }) => {
         }
     }
 
+    const renderAddNewFoodSection = () => {
+
+    }
+
     return (
         <div className="fixed z-10 inset-0 overflow-y-auto text-gray-500" aria-labelledby="modal-title" role="dialog" aria-modal="true">
 
@@ -97,8 +102,11 @@ const FoodEntry: FC<FoodEntryProps> = ({ onClose }) => {
                         {!isNutritionLoading && nutritionList.length ? <SuggestionList suggestions={nutritionList} onClickHandler={onSelection} /> : null}
                         {isNutritionLoading && <Spinner className="mt-3" />}
                     </div>
+                    {<div>
+
+                    </div>}
                     {foodName && (
-                        <div className=" shadow h-52 bg-white rounded-lg relative mt-5 items-center flex border border-slate-400 -ml-3 -mr-3 -mb-3 sm:-ml-5 sm:-mr-5 sm:-mb-5">
+                        <div className=" shadow h-56 bg-white rounded-lg relative mt-5 items-center flex border border-slate-400 -ml-3 -mr-3 -mb-3 sm:-ml-5 sm:-mr-5 sm:-mb-5">
                             {isNutritionDetailsLoading && <Spinner className="pt-10" />}
                             {!isNutritionDetailsLoading && nutritionDetails && <FoodAddCard {...mapNutrition()} />}
                         </div>

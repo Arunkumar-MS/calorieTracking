@@ -29,7 +29,8 @@ const FoodAddCard = (props: FoodAddCardProps) => {
             </div>
             <div className="pl-5 w-5/6 pr-5">
                 <p className="font-medium capitalize text-center">{props.name}</p>
-                <p className="flex justify-between"> <span>Serving unit </span> <span> {props.servingQty}</span></p>
+                <p className="flex justify-between"> <span>Serving Qty </span> <span> {props.servingQty}</span></p>
+                <p className="flex justify-between"> <span>Serving unit </span> <span> {props.servingUnit}</span></p>
                 <p className="flex justify-between"> <span>Serving weight grams </span> <span> {props.servingWeightGrams}</span></p>
                 <p className="flex justify-between"> <span>Caloriese per serving </span> <span> {props.calories}</span></p>
                 <div className="border border-slate-400 border-dashed	 " />
