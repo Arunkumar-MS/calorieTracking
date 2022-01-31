@@ -79,7 +79,9 @@ const FoodEntry: FC<FoodEntryProps> = ({ onClose }) => {
     }
 
     const renderAddNewFoodSection = () => {
-
+        if(!isNutritionLoading && searchTerm && !nutritionList.length) {
+            return <div className="text-center border border-slate-400 bg-gray-50 p-2 hover:bg-gray-100">Add new entry</div>
+        }
     }
 
     return (
@@ -98,13 +100,11 @@ const FoodEntry: FC<FoodEntryProps> = ({ onClose }) => {
                             <input onChange={onChangeHandler} type="text" className="block w-full drop-shadow-md border border-transparent rounded-md px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600" placeholder="Search food" />
                         </div>
                     </div>
+                    {renderAddNewFoodSection()}
                     <div className="h-44">
                         {!isNutritionLoading && nutritionList.length ? <SuggestionList suggestions={nutritionList} onClickHandler={onSelection} /> : null}
                         {isNutritionLoading && <Spinner className="mt-3" />}
                     </div>
-                    {<div>
-
-                    </div>}
                     {foodName && (
                         <div className=" shadow h-56 bg-white rounded-lg relative mt-5 items-center flex border border-slate-400 -ml-3 -mr-3 -mb-3 sm:-ml-5 sm:-mr-5 sm:-mb-5">
                             {isNutritionDetailsLoading && <Spinner className="pt-10" />}
