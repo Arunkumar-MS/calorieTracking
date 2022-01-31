@@ -2,10 +2,12 @@ import React, { FC } from "react";
 import { CloseIcon } from "src/svgs/closeIcon.svg";
 import throttle from "lodash.throttle";
 import axios from "axios";
+import { useRouter } from 'next/router';
 import { NutritionDetails, suggestionItem } from "./foodEntry.types";
 import SuggestionList from "./suggestionList";
 import Spinner from "@Component/spinner";
 import FoodAddCard from "./foodSelection";
+import Link from 'next/link'
 
 interface FoodEntryProps {
     onClose: () => void;
@@ -32,7 +34,7 @@ const fetchNutrition = (query: string) => {
 }
 
 const FoodEntry: FC<FoodEntryProps> = ({ onClose }) => {
-
+    const router = useRouter();
     const [nutritionList, setNutritionList] = React.useState<suggestionItem[]>([] as suggestionItem[]);
     const [nutritionDetails, setnutritionDetails] = React.useState<NutritionDetails>({} as NutritionDetails);
     const [isNutritionLoading, setNutritionLoading] = React.useState(false);
@@ -78,9 +80,18 @@ const FoodEntry: FC<FoodEntryProps> = ({ onClose }) => {
         }
     }
 
+    const addFood = () => {
+        router.push({
+            pathname: '/addFood',
+            query: { name: 'Someone' }
+        });
+    }
+
     const renderAddNewFoodSection = () => {
-        if(!isNutritionLoading && searchTerm && !nutritionList.length) {
-            return <div className="text-center border border-slate-400 bg-gray-50 p-2 hover:bg-gray-100">Add new entry</div>
+        if (!isNutritionLoading && searchTerm && !nutritionList.length) {
+            return (<Link href={{ pathname: '/addFood', query: { foodname: searchTerm } }}>
+                <div className="text-center border border-slate-400 bg-gray-50 p-2 hover:bg-gray-100">Add new entry</div>
+            </Link>);
         }
     }
 

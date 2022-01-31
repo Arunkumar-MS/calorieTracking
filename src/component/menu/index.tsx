@@ -32,7 +32,7 @@ export const Menu = () => {
     return (
         <>
             <div className="flex items-center justify-between h-16 px-4 sm:px-0">
-                <div className="flex items-center">
+                <div className="flex items-center" onClick={()=> router.push('./')}>
                     <div className="flex-shrink-0">
                         <img className="h-10 w-10 bg-white rounded-lg" src="./logo.svg" alt="Workflow" />
                     </div>
