@@ -12,6 +12,7 @@ import authAccess from '@Service/serverAuth';
 import axios from '@Service/core/axios';
 import { FoodEntry } from '@Pages/addFood.types';
 import { updateEntry } from '@Reducers/foodDetailsSlice/foodDetailsSlice';
+import getUnixTime from 'date-fns/getUnixTime';
 
 type Props = NextPage & InitailProps;
 
@@ -32,14 +33,21 @@ const AddFood = (props: Props) => {
 
     const dispatch = useAppDispatch();
 
-    const { query } = useRouter();
+    const { query, push } = useRouter();
 
     React.useEffect(() => {
         dispatch(updateUser(props.user))
     }, []);
 
     const onSubmit = (data: any) => {
-        saveFood(data).then((list) => dispatch(updateEntry(list.data)));
+        const withTime = {
+            ...data,
+            addedDate: getUnixTime(new Date())
+        }
+        saveFood(withTime).then((list) => {
+            dispatch(updateEntry(list.data));
+            push('./');
+        });
     };
 
     const getFormRegisterPropsForString = (name: string) => {
@@ -105,7 +113,7 @@ const AddFood = (props: Props) => {
         <Layout>
             <form onSubmit={handleSubmit(onSubmit)}>
                 {renderRow('Food name', getFormRegisterPropsForString('name'), errors['name'], '(Pizza)', query.foodname)}
-                {renderRow('Consume qty  ', getFormRegisterPropsForNumber('consumeQty'), errors['consumeQty'], '(1)')}
+                {renderRow('Consume qty  ', getFormRegisterPropsForNumber('consumedQty'), errors['consumedQty'], '(1)')}
                 {renderRow('Consumed Calories', getFormRegisterPropsForNumber('consumedCalories'), errors['consumedCalories'], '(120)')}
 
                 {renderRow('Serving unit ', getFormRegisterPropsForString('servingUnit'), errors['servingUnit'], '(Slice)')}

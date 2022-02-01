@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { CloseIcon } from "src/svgs/closeIcon.svg";
-import throttle from "lodash.throttle";
+import debounce from "lodash.debounce";
 import axios from "axios";
 import { useRouter } from 'next/router';
 import { NutritionDetails, suggestionItem } from "./foodEntry.types";
@@ -42,14 +42,14 @@ const FoodEntry: FC<FoodEntryProps> = ({ onClose }) => {
     const [foodName, setFoodName] = React.useState('');
     const [searchTerm, setSearchTerm] = React.useState('');
 
-    const optimizedFetch = React.useCallback(throttle((query) => {
+    const optimizedFetch = React.useCallback(debounce((query) => {
         setNutritionLoading(true);
         fetchSuggestion(query).then((nutritionSuggestion) => {
             const { data } = nutritionSuggestion;
             setNutritionList([...data.common, ...data.branded]);
             setNutritionLoading(false);
         });
-    }, 200), []);
+    }, 300), []);
 
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         const query = e.target.value;
@@ -65,8 +65,11 @@ const FoodEntry: FC<FoodEntryProps> = ({ onClose }) => {
         setNutritionDetailsLoading(true);
         const nutrition = await fetchNutrition(item.food_name);
         setnutritionDetails((nutrition?.data?.foods || [])[0]);
-        console.log(nutrition);
         setNutritionDetailsLoading(false);
+    }
+
+    const onSuccesfullAdd = () => {
+        onClose();
     }
 
     const mapNutrition = () => {
@@ -77,6 +80,7 @@ const FoodEntry: FC<FoodEntryProps> = ({ onClose }) => {
             url: nutritionDetails.photo.thumb,
             calories: nutritionDetails.nf_calories,
             name: nutritionDetails.food_name,
+            onAdd: onSuccesfullAdd,
         }
     }
 

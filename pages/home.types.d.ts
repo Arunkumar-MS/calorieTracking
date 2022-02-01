@@ -4,6 +4,7 @@ export interface User {
     name: string;
     userId: string;
     role: Role;
+    calorieLimit: number;
 }
 
 export interface Props {

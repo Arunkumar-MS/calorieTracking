@@ -4,8 +4,9 @@ import { useRouter } from 'next/router';
 import cookies from "js-cookie";
 import {
     useAppSelector,
-  } from '@Store/hooks';
+} from '@Store/hooks';
 import { selectUser } from "@Reducers/userSlice/userSlice";
+import Link from "next/link";
 
 
 
@@ -13,6 +14,9 @@ export const Menu = () => {
     const [isOpen, setIsOpen] = React.useState(false);
     const router = useRouter();
     const user = useAppSelector(selectUser);
+
+    const isAdmin = user.role == 'admin';
+
 
     const signOut = () => {
         cookies.remove('token');
@@ -23,7 +27,14 @@ export const Menu = () => {
         return (
             <>
                 <MenuItem title={`Hi! ${user.name}`} />
-                <MenuItem title="Track" onClick={(e) => console.log(e)} />
+                <Link href="/report">
+                    <a href="#"><MenuItem title="View report" /></a>
+                </Link>
+                {isAdmin && <Link href="/manageFoodEntry">
+                    <a href="#">
+                        <MenuItem title="Manage food entries" />
+                    </a>
+                </Link>}
                 <MenuItem title="Sign out" onClick={signOut} />
             </>
         )
@@ -32,7 +43,7 @@ export const Menu = () => {
     return (
         <>
             <div className="flex items-center justify-between h-16 px-4 sm:px-0">
-                <div className="flex items-center" onClick={()=> router.push('./')}>
+                <div className="flex items-center" onClick={() => router.push('./')}>
                     <div className="flex-shrink-0">
                         <img className="h-10 w-10 bg-white rounded-lg" src="./logo.svg" alt="Workflow" />
                     </div>

@@ -10,6 +10,7 @@ const initialState: User = {
     name: '',
     role: null,
     userId: '',
+    calorieLimit: 2200,
 };
 
 export const counterSlice = createSlice({
@@ -22,6 +23,7 @@ export const counterSlice = createSlice({
             state.name = payload.name;
             state.role = payload.role;
             state.userId = payload.userId;
+            state.calorieLimit = Number(payload.calorieLimit);
         },
         remove: state => {
             state = initialState;
@@ -38,5 +40,6 @@ export const {
 export const selectName = (state: RootState) => state.user.name;
 export const selectUser = (state: RootState) => state.user;
 export const selectRole = (state: RootState) => state.user.role; 
+export const selectCalorieLimit = (state: RootState) => state.user.calorieLimit; 
 
 export default counterSlice.reducer;

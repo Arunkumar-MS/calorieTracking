@@ -6,10 +6,11 @@ const FoodListSchema = new mongoose.Schema({
     name:String,
     consumedWeightGrams:String,
     consumedCalories:String,
-    consumeQty:String,
+    consumedQty:String,
     calories:String,
     imageUrl: String,
     addedDate: Number,
+    servingUnit: String,
 });
   
 module.exports = mongoose.model('foodList', FoodListSchema, 'userFoodList');

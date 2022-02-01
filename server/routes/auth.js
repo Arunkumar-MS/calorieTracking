@@ -1,38 +1,51 @@
-const express = require("express")
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
+const jwt = require('jsonwebtoken');
 const ObjectId = require('mongodb').ObjectId;
-const { MongoClient } = require('mongodb');
+const UserModel = require('../schema/userSchema');
+const AuthModel = require('../schema/authSchema');
+
+
+router.post("/addUser", async (req, res) => {
+    try {
+        const user = new UserModel({name: 'there', ...req.body});
+        const addedUser = await user.save();
+        const token = jwt.sign({userid: addedUser._id, name: addedUser.name }, 'n4_8$##');
+        const auth = new AuthModel({userId: ObjectId(addedUser._id), token });
+        const addedToken = await auth.save();
+        res.status(200).send(addedToken);
+    } catch(e) {
+        logger.error('User creation faild', e);
+        res.status(400).send('User creation faild');
+    }
+});
 
 router.get("/getUser", async (req, res) => {
-
     const authToken = req.get('Authorization');
-
     if (!authToken) {
+        logger.warn('Invalid token');
         res.status(400).send('Invalid token');
         return
     }
-    const dbClient = new MongoClient(MONGO_URI);
     try {
-        await dbClient.connect();
-        const userAuth = await getUserAuthInfo(authToken, dbClient);
+        const userAuth = await getUserAuthInfo(authToken);
         if (userAuth) {
-            const user = await getUser(userAuth.userId, dbClient);
+            const user = await getUser(userAuth.userId);
             if (user) {
              res.status(200).send(user);
              return
             }
         }
+         logger.warn('Invalid user');
          res.status(400).send('Invalid user');
          return
     }
     catch (e) {
+        logger.error('Something went wrong',e);
          res.status(500).send('Something went wrong');
          return;
     }
-    finally {
-        await dbClient.close();
-    }
-})
+});
 
 router.post("/login", async (req, res) => {
     const token = req.body.token;
@@ -47,35 +60,28 @@ router.post("/login", async (req, res) => {
     } else {
         return res.status(400).send('Invalid token');
     }
-})
+});
 
 
-const getUserAuthInfo = async (token, dbClient) => {
-    const database = dbClient.db('calorietacker');
-    const auth = database.collection('auth');
-    const query = { token };
-    const user = await auth.findOne(query);
+const getUserAuthInfo = async (token) => {
+    const user = await AuthModel.findOne({ token });
     return user;
 }
 
 
-
-const getUser = async (id, dbClient) => {
-    const database = dbClient.db('calorietacker');
-    const auth = database.collection('user');
+const getUser = async (id) => {
+    
     const query = { _id: ObjectId(id) };
-    const user = await auth.findOne(query);
+    const user = await UserModel.findOne(query);
     return user;
 }
 
 
 const getUserByToken = async (authToken) => {
-    const dbClient = new MongoClient(MONGO_URI);
     try {
-        await dbClient.connect();
-        const userAuth = await getUserAuthInfo(authToken, dbClient);
+        const userAuth = await getUserAuthInfo(authToken);
         if (userAuth) {
-            const user = await getUser(userAuth.userId, dbClient);
+            const user = await getUser(userAuth.userId);
             return user;
         }
         return null;
@@ -83,11 +89,9 @@ const getUserByToken = async (authToken) => {
     } catch (e) {
         return null;
     }
-
-    finally {
-        await dbClient.close();
-    }
 }
+
+
 
 module.exports = {
     authRouter: router,

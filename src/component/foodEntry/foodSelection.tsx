@@ -1,5 +1,10 @@
 import InputNumberCounter from "@Component/inputNumberCounter";
+import { FoodEntry } from "@Pages/addFood.types";
+import axios from "@Service/core/axios";
 import React from "react";
+import { useAppDispatch } from "@Store/hooks";
+import getUnixTime from "date-fns/getUnixTime";
+import { updateEntry } from "@Reducers/foodDetailsSlice/foodDetailsSlice";
 
 export interface FoodAddCardProps {
     servingQty: number;
@@ -8,17 +13,35 @@ export interface FoodAddCardProps {
     url: string;
     calories: number;
     name: string;
+    onAdd: ()=>void;
+}
+
+const saveFood = (data) => {
+    return axios.post('/tracker/addFood', { ...data });
 }
 
 const FoodAddCard = (props: FoodAddCardProps) => {
     const [selectedQty, setQty] = React.useState(1);
-    
+    const dispatch = useAppDispatch();
     const onChange = (n: number) => {
         setQty(n);
     }
 
     const onAdd = () => {
-        console.log(props, selectedQty);
+        const data = {
+            addedDate: getUnixTime(new Date()),
+            consumedQty: selectedQty.toString(),
+            consumedCalories: (selectedQty * props.calories).toString(),
+            consumedWeightGrams: (selectedQty * Number(props.servingWeightGrams)).toString(),
+            imageUrl: props.url,
+            name: props.name,
+            servingUnit: props.servingUnit,
+        }
+        saveFood(data).then((list) => {
+            console.log(data);
+            dispatch(updateEntry(list.data));
+            props.onAdd();
+        });
     }
 
     return (
