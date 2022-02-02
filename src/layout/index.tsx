@@ -11,11 +11,10 @@ const Layout: FC<Props> = ({ children }) => {
             <main className='m-2 md:m-5'>
                 {children}
             </main>
+            <div className='pt-5'></div>
         </>
     )
 }
 
 export default Layout;
 
-
-// https://react-chartjs-2.netlify.app/examples/pie-chart

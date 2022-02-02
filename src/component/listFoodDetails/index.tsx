@@ -15,9 +15,10 @@ export const ListFoodDetails = (props: any) => {
                 </div>
                 <div className="pl-5 w-5/6 pr-5 text-gray-600 ">
                     <p className="flex justify-between"> <span>Serving unit </span> <span> {props.servingUnit}</span></p>
-                    <p className="flex justify-between"> <span>Consumend Qty </span> <span> {props.consumedQty}</span></p>
-                    <p className="flex justify-between"> <span>Consumend weight in grams </span> <span> {props.consumedWeightGrams}</span></p>
-                    <p className="flex justify-between"> <span>Total caloriese consumend </span> <span> {props.consumedCalories}</span></p>
+                    <p className="flex justify-between"> <span>consumed Qty </span> <span> {props.consumedQty}</span></p>
+                    <p className="flex justify-between"> <span>consumed weight in grams </span> <span> {props.consumedWeightGrams}</span></p>
+                    <p className="flex justify-between"> <span>Total calories consumed </span> <span> {props.consumedCalories}</span></p>
+                    {props.isAdmin && <p className="flex justify-between"> <span>Added by </span> <span> {props.emailId}</span></p>}
                 </div>
             </div>
             {props.isAdmin && <AdminOperation {...props}/>}

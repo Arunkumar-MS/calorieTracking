@@ -11,6 +11,7 @@ const FoodListSchema = new mongoose.Schema({
     imageUrl: String,
     addedDate: Number,
     servingUnit: String,
+    emailId: String,
 });
   
 module.exports = mongoose.model('foodList', FoodListSchema, 'userFoodList');

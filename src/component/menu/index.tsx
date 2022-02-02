@@ -31,7 +31,6 @@ export const Menu = () => {
     const renderMenuItems = () => {
         return (
             <>
-                <MenuItem title={`Hi! ${user.name}`} />
                 <Link href="/report">
                     <a href="#"><MenuItem title="View report" /></a>
                 </Link>
@@ -40,7 +39,8 @@ export const Menu = () => {
                         <MenuItem title="Manage food entries" />
                     </a>
                 </Link>}
-                <MenuItem title="Sign out" onClick={signOut} />
+                <MenuItem title="Invite a friend" />
+                <MenuItem title={<span className="flex md:flex-col "> <span className="hidden md:block"> {`Hi! ${user.name}`}</span> <span> Sign out</span></span>} onClick={signOut} />
             </>
         )
     }

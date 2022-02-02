@@ -5,6 +5,7 @@ import React from "react";
 import { useAppDispatch } from "@Store/hooks";
 import getUnixTime from "date-fns/getUnixTime";
 import { updateEntry } from "@Reducers/foodDetailsSlice/foodDetailsSlice";
+import DatePicker from "src/datePicker";
 
 export interface FoodAddCardProps {
     servingQty: number;
@@ -13,7 +14,7 @@ export interface FoodAddCardProps {
     url: string;
     calories: number;
     name: string;
-    onAdd: ()=>void;
+    onAdd: () => void;
 }
 
 const saveFood = (data: any) => {
@@ -22,14 +23,16 @@ const saveFood = (data: any) => {
 
 const FoodAddCard = (props: FoodAddCardProps) => {
     const [selectedQty, setQty] = React.useState(1);
+    const [selectedDate, setSelectedDate] = React.useState(new Date());
     const dispatch = useAppDispatch();
+
     const onChange = (n: number) => {
         setQty(n);
     }
 
     const onAdd = () => {
         const data = {
-            addedDate: getUnixTime(new Date()),
+            addedDate: getUnixTime(selectedDate),
             consumedQty: selectedQty.toString(),
             consumedCalories: (selectedQty * props.calories).toString(),
             consumedWeightGrams: (selectedQty * Number(props.servingWeightGrams)).toString(),
@@ -56,6 +59,8 @@ const FoodAddCard = (props: FoodAddCardProps) => {
                 <p className="flex justify-between"> <span>Serving unit </span> <span> {props.servingUnit}</span></p>
                 <p className="flex justify-between"> <span>Serving weight grams </span> <span> {props.servingWeightGrams}</span></p>
                 <p className="flex justify-between"> <span>Caloriese per serving </span> <span> {props.calories}</span></p>
+                <p className="flex justify-between mb-2 mt-1"> <span>Select date </span> <span > <DatePicker onSelect={(date) => setSelectedDate(date)} /></span></p>
+
                 <div className="border border-slate-400 border-dashed	 " />
                 <p className="flex justify-between mt-2 items-center"> <span>Select serving qty </span> <span> <InputNumberCounter onChange={onChange} /> </span></p>
                 <p>

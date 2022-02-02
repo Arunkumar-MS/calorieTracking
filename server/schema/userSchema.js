@@ -5,6 +5,7 @@ const UserSchema = new mongoose.Schema({
     role: { type: String, enum: ['admin', 'user'] },
     createdDate:String,
     calorieLimit:Number,
+    emailId: String,
 });
   
 module.exports = mongoose.model('user', UserSchema, 'users');

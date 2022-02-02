@@ -17,9 +17,11 @@ export const CalorieTrackerCard = (props: CalorieTrackerCardProps) => {
     const [openFoodModal, setOpenFoodModal] = React.useState(false);
     const todayuserEntry = useAppSelector(selectTodaysEntryList);
     const userCalorieLimit = useAppSelector(selectCalorieLimit);
+
     const totalCaloreConsumedToday = React.useMemo(() => todayuserEntry.reduce((result, item) => {
         return Number((item as any)?.consumedCalories) + result;
     }, 0), [todayuserEntry]);
+    
     const consumedCalorePersentage = (totalCaloreConsumedToday && (totalCaloreConsumedToday / userCalorieLimit) * 100) || 0;
     const isLimitReached = consumedCalorePersentage >= 100;
 

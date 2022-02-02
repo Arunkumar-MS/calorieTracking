@@ -46,7 +46,7 @@ const UserReport = () => {
         <div>
             {isLoading && <Spinner />}
             {!isLoading && <>
-            <div> User Entry report for last 7 days  </div>
+            <div> Youre last 7 days caloriese consumption report  </div>
             <BarChart data={barChartdata} options={options} />
             </>}
         </div>

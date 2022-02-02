@@ -10,6 +10,7 @@ router.post("/addFood", authorization(['admin', 'user']), async (req, res, next)
     const userId = req.ctx.user['_id'];
     const content = {
         userId,
+        emailId: req.ctx.user['emailId'],
         ...req.body,
     };
     try {
@@ -42,14 +43,13 @@ router.post("/addOtherUserFoodEntry", authorization(['admin']), async (req, res,
             res.status(200).send({ statusCode: 400, message: 'User not found!'});
             return;
         }
-        await FoodListModel({userId: req.body.userId});
+        await FoodListModel({userId: req.body.userId, emailId: user.emailId });
         var newFoodToSave = new FoodListModel({ ...req.body });
         await newFoodToSave.save();
         const userFoodList = await FoodListModel.find({}).sort({addedDate: -1});
         res.status(200).send(userFoodList);
         return;
     } catch (e) {
-        console.log(e)
         logger.error('addOtherUserFoodEntry: Something went wrong',e);
         res.status(404).send('Bad request!');
         return;
@@ -59,11 +59,18 @@ router.post("/addOtherUserFoodEntry", authorization(['admin']), async (req, res,
 
 
 router.post("/editUserFoodEntry", authorization(['admin']), async (req, res, next) => {
-    const content = {
-        ...req.body,
-    };
     const { userId, _id } = req.body;
     try {
+        const user = await UserModel.findById(userId);
+        if(!user){
+            res.status(200).send({ statusCode: 400, message: 'User not found!'});
+            return;
+        }
+        const content = {
+            emailId: user.emailId,
+            ...req.body,
+        };
+       
         await FoodListModel.findOneAndUpdate({ _id, userId }, content);
         const userFoodList = await FoodListModel.find({}).sort({addedDate: -1});
         res.status(200).send(userFoodList);

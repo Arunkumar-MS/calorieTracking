@@ -121,7 +121,7 @@ const FoodEntry: FC<FoodEntryProps> = ({ onClose }) => {
                         {isNutritionLoading && <Spinner className="mt-3" />}
                     </div>
                     {foodName && (
-                        <div className=" shadow h-56 bg-white rounded-lg relative mt-5 items-center flex border border-slate-400 -ml-3 -mr-3 -mb-3 sm:-ml-5 sm:-mr-5 sm:-mb-5">
+                        <div className=" shadow h-72 bg-white rounded-lg relative mt-5 items-center flex border border-slate-400 -ml-3 -mr-3 -mb-3 sm:-ml-5 sm:-mr-5 sm:-mb-5">
                             {isNutritionDetailsLoading && <Spinner className="pt-10" />}
                             {!isNutritionDetailsLoading && nutritionDetails && <FoodAddCard {...mapNutrition()} />}
                         </div>

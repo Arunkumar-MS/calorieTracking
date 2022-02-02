@@ -9,6 +9,7 @@ import { FoodEntry } from '@Pages/addFood.types';
 import { updateEntry } from '@Reducers/foodDetailsSlice/foodDetailsSlice';
 import getUnixTime from 'date-fns/getUnixTime';
 import withAuth from 'src/authHoc';
+import DatePicker from 'src/datePicker';
 
 
 const saveFood = (data: FoodEntry) => {
@@ -16,6 +17,9 @@ const saveFood = (data: FoodEntry) => {
 }
 
 export const AddFoodComponent = () => {
+
+    const [selectedDate, setSelectedDate] = React.useState(new Date());
+
     const {
         register,
         handleSubmit,
@@ -30,7 +34,7 @@ export const AddFoodComponent = () => {
     const onSubmit = (data: any) => {
         const withTime = {
             ...data,
-            addedDate: getUnixTime(new Date())
+            addedDate: getUnixTime(selectedDate)
         }
         saveFood(withTime).then((list) => {
             dispatch(updateEntry(list.data));
@@ -96,6 +100,20 @@ export const AddFoodComponent = () => {
 
     }
 
+    const renderDatePicker = () => {
+
+        return (
+            <div className={`sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 pt-2 pb-2 sm:pt-5  sm:pb-5`}>
+                <label htmlFor="last-name" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                    <span>Select date</span>
+                </label>
+                <div>
+                    <DatePicker onSelect={(date) => setSelectedDate(date)} />
+                </div>
+            </div>
+        )
+    }
+
 
     return (
         <>
@@ -107,6 +125,7 @@ export const AddFoodComponent = () => {
                 {renderRow('Serving unit ', getFormRegisterPropsForString('servingUnit'), errors['servingUnit'], '(Slice)')}
                 {renderRow('Consumed weight grams ', getFormRegisterPropsForNumber('consumedWeightGrams'), errors['consumedWeightGrams'], '(107)')}
                 {renderRow('Image Url', getFormRegisterPropsForURL('imageUrl'), errors['imageUrl'])}
+                {renderDatePicker()}
                 <div className=' w-full flex justify-center'>
                     <button type="submit" className="w-full md:w-5/12 mt-2 bg-blue-500 rounded-lg font-bold text-white text-center px-4 py-3 transition duration-300 ease-in-out hover:bg-blue-600">
                         Add
@@ -120,5 +139,5 @@ export const AddFoodComponent = () => {
 }
 
 
-const AddFood = withAuth(AddFoodComponent, ['admin','user']); ;
+const AddFood = withAuth(AddFoodComponent, ['admin', 'user']);;
 export default AddFood;

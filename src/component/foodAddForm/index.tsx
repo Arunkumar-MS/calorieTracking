@@ -9,6 +9,8 @@ import { updateAllFoodEntry } from '@Reducers/foodDetailsSlice/foodDetailsSlice'
 import getUnixTime from 'date-fns/getUnixTime';
 import { editFoodEntry, addOtherUserFoodEntry } from '@Service/foodService';
 import Spinner from '@Component/spinner';
+import DatePicker from 'src/datePicker';
+import { fromUnixTime } from 'date-fns';
 
 interface FormProps {
     item?: FoodEntry | any;
@@ -23,12 +25,25 @@ type Props = FormProps
 
 
 const FoodAddForm = (props: Props) => {
+
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors }
     } = useForm();
+
+
+    const getDefaultDate = () => {
+        if (props.item?.addedDate) {
+            console.log(props.item?.addedDate);
+            return fromUnixTime(props.item?.addedDate);
+        }
+        return new Date();
+    }
+
+    const [selectedDate, setSelectedDate] = React.useState(getDefaultDate());
+    
     const isAdminEdit = props.isAdmin && props.type === 'edit';
     const [error, setError] = React.useState('');
     const [isLoading, setIsLoading] = React.useState(false);
@@ -36,12 +51,15 @@ const FoodAddForm = (props: Props) => {
 
     const { query } = useRouter();
 
+    const defaultFoodValue = query.foodname || props.item?.name;
+    const defaultConsumedCalories = props.item?.consumedCalories;
+    const defaultConsumedQty = props.item?.consumedQty;
+    const defaultServingUnit = props.item?.servingUnit;
+    const defaultConsumedWeightGrams = props.item?.consumedWeightGrams;
+    const defaultImageUrl = props.item?.imageUrl;
+
     const onClickHandler = () => {
         setIsLoading(true);
-        setError('');
-    }
-
-    const onInValid = () => {
         setError('');
     }
 
@@ -57,6 +75,7 @@ const FoodAddForm = (props: Props) => {
             apiService = editFoodEntry;
             formData = {
                 ...formData,
+                addedDate: getUnixTime(selectedDate),
                 userId: props.item?.userId,
                 _id: props.item?._id
             }
@@ -64,7 +83,7 @@ const FoodAddForm = (props: Props) => {
         if (props.type === 'add') {
             formData = {
                 ...formData,
-                addedDate: getUnixTime(new Date())
+                addedDate: getUnixTime(selectedDate)
             }
             apiService = addOtherUserFoodEntry;
         }
@@ -166,19 +185,29 @@ const FoodAddForm = (props: Props) => {
         )
 
     }
+    
+    const renderDatePicker = () => {
+
+        return (
+            <div className={`sm:grid sm:grid-cols-2 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 pt-2 pb-2 sm:pt-5  sm:pb-5`}>
+                <label htmlFor="last-name" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                    <span>Select date</span>
+                </label>
+                <div>
+                    <DatePicker onSelect={(date) => setSelectedDate(date)} defaultDate={getDefaultDate()} />
+                </div>
+            </div>
+        )
+    }
+
 
     const renderUserId = () => {
         const defultValue = isAdminEdit ? props.item?.userId : '';
         return renderRow('User Id', getFormRegisterPropsForUserId('userId'), errors['userId'], '', defultValue)
     }
-    const defaultFoodValue = query.foodname || props.item?.name;
-    const defaultConsumedCalories = props.item?.consumedCalories;
-    const defaultConsumedQty = props.item?.consumedQty;
-    const defaultServingUnit = props.item?.servingUnit;
-    const defaultConsumedWeightGrams = props.item?.consumedWeightGrams;
-    const defaultImageUrl = props.item?.imageUrl;
+
     return (
-        <form onSubmit={handleSubmit(onSubmit, onInValid)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             {renderRow('Food name', getFormRegisterPropsForString('name'), errors['name'], '(Pizza)', defaultFoodValue)}
             {renderRow('Consume qty  ', getFormRegisterPropsForNumber('consumedQty'), errors['consumedQty'], '(1)', defaultConsumedQty)}
             {renderRow('Consumed Calories', getFormRegisterPropsForNumber('consumedCalories'), errors['consumedCalories'], '(120)', defaultConsumedCalories)}
@@ -187,7 +216,7 @@ const FoodAddForm = (props: Props) => {
             {renderRow('Consumed weight grams ', getFormRegisterPropsForNumber('consumedWeightGrams'), errors['consumedWeightGrams'], '(107)', defaultConsumedWeightGrams)}
             {renderRow('Image Url', getFormRegisterPropsForURL('imageUrl'), errors['imageUrl'], '', defaultImageUrl)}
             {renderUserId()}
-
+            {renderDatePicker()}
             <div className=' w-full flex justify-center'>
                 <button disabled={isLoading} type="submit" className={`flex justify-around items-center w-full md:w-5/12 mt-2 bg-blue-500 rounded-lg font-bold text-white text-center px-4 py-3 transition duration-300 ease-in-out hover:bg-blue-600 capitalize ${isLoading ? 'disabled:opacity-75 hover:bg-blue-500' : ''}`}>
                     {props.type === 'edit' ? "Save" : "Add"}
