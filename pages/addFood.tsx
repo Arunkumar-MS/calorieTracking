@@ -108,7 +108,7 @@ export const AddFoodComponent = () => {
                     <span>Select date</span>
                 </label>
                 <div>
-                    <DatePicker onSelect={(date) => setSelectedDate(date)} />
+                    <DatePicker onSelect={(date)=> setSelectedDate(date)}/>
                 </div>
             </div>
         )

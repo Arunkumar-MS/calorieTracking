@@ -6,7 +6,7 @@ import { updateEntry } from '@Reducers/foodDetailsSlice/foodDetailsSlice';
 import Spinner from '@Component/spinner';
 import useSWR from 'swr';
 import withAuth from 'src/authHoc';
-import { SWR_OPTIONS } from 'src/constens/swr';
+import { SWR_OPTIONS } from 'src/constant/swr';
 import fetcher from '@Service/core/fetcher';
 
 

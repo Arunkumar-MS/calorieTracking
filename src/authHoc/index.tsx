@@ -8,7 +8,7 @@ import { Role, User } from '@Pages/home.types';
 import { useDispatch } from 'react-redux';
 import { updateUser } from '@Reducers/userSlice/userSlice';
 import Cookies from 'js-cookie';
-import { SWR_OPTIONS } from 'src/constens/swr';
+import { SWR_OPTIONS } from 'src/constant/swr';
 
 const fetcher = (url: string) => axios.get(url).then((data) => data.data);
 

@@ -1,0 +1,1 @@
+export const DEFAULT_CALORIES_LIMIT = 2100;

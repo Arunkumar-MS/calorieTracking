@@ -10,8 +10,6 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { resetfoodDetailsStore } from "@Reducers/foodDetailsSlice/foodDetailsSlice";
 
-
-
 export const Menu = () => {
     const [isOpen, setIsOpen] = React.useState(false);
     const router = useRouter();
@@ -39,7 +37,11 @@ export const Menu = () => {
                         <MenuItem title="Manage food entries" />
                     </a>
                 </Link>}
-                <MenuItem title="Invite a friend" />
+                <Link href="/inviteFriend">
+                    <a href="#">
+                        <MenuItem title="Invite a friend" />
+                    </a>
+                </Link>
                 <MenuItem title={<span className="flex md:flex-col "> <span className="hidden md:block"> {`Hi! ${user.name}`}</span> <span> Sign out</span></span>} onClick={signOut} />
             </>
         )
@@ -54,7 +56,7 @@ export const Menu = () => {
                     </div>
                 </div>
                 <div className="hidden md:block">
-                    <div className="md:ml-4 md:flex md:items-center md:ml-6">
+                    <div className="ml-4 md:flex md:items-center md:ml-6">
                         {renderMenuItems()}
                     </div>
                 </div>

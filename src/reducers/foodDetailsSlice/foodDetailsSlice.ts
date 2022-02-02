@@ -31,7 +31,8 @@ const foodDetailSlice = createSlice({
             state.allFoodEntryList = payload;
         },
         resetfoodDetailsStore: (state) => {
-           state = initialState;
+           state.foodEntryList = [];
+           state.allFoodEntryList = [];
         },
     },
 });

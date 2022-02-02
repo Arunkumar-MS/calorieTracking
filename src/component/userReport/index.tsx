@@ -31,7 +31,7 @@ const UserReport = () => {
         });
     }, []);
 
-    const labels = Object.keys(userReport);
+    const labels = Object.keys(userReport).reverse();
 
     const barChartdata = {
         labels,

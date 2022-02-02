@@ -1,24 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const jwt = require('jsonwebtoken');
 const ObjectId = require('mongodb').ObjectId;
 const UserModel = require('../schema/userSchema');
 const AuthModel = require('../schema/authSchema');
 
-
-router.post("/addUser", async (req, res) => {
-    try {
-        const user = new UserModel({name: 'there', ...req.body});
-        const addedUser = await user.save();
-        const token = jwt.sign({userid: addedUser._id, name: addedUser.name }, 'n4_8$##');
-        const auth = new AuthModel({userId: ObjectId(addedUser._id), token });
-        const addedToken = await auth.save();
-        res.status(200).send(addedToken);
-    } catch(e) {
-        logger.error('User creation faild', e);
-        res.status(400).send('User creation faild');
-    }
-});
 
 router.get("/getUser", async (req, res) => {
     const authToken = req.get('Authorization');
@@ -90,7 +75,6 @@ const getUserByToken = async (authToken) => {
         return null;
     }
 }
-
 
 
 module.exports = {

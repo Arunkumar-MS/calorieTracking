@@ -4,13 +4,14 @@ import {
 } from '@reduxjs/toolkit';
 import type { RootState } from '@Store/store';
 import { User } from '@Pages/home.types';
+import { DEFAULT_CALORIES_LIMIT } from 'src/constant/config';
 
 
 const initialState: User = {
     name: '',
     role: null,
     userId: '',
-    calorieLimit: 2200,
+    calorieLimit: DEFAULT_CALORIES_LIMIT,
 };
 
 export const counterSlice = createSlice({
@@ -26,7 +27,10 @@ export const counterSlice = createSlice({
             state.calorieLimit = Number(payload.calorieLimit);
         },
         resetUserStore: state => {
-            state = initialState;
+            state.name = '';
+            state.role = null;
+            state.userId = '';
+            state.calorieLimit = DEFAULT_CALORIES_LIMIT;
         },
 
     },

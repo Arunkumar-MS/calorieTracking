@@ -10,6 +10,10 @@ const Login = () => {
   const [error, setError] = React.useState('');
 
   const onLoginHandler = () => {
+    if(!token) {
+      setError('Input field is required. Please enter toekn!');
+      return;
+    }
     setError('')
     axios.post('/auth/login', { token }).then((d) => {
       cookies.set('token', token);

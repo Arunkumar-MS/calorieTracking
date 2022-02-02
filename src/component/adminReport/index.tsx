@@ -15,7 +15,7 @@ const AdminReport = () => {
         });
     }, []);
 
-  
+
 
     const options = {
         responsive: true,
@@ -39,23 +39,23 @@ const AdminReport = () => {
         },
     } as any;
 
-    const labels = adminReport.avgCalForLastSevendays?.map((avgCal: any) => avgCal.date);
+    const labels = adminReport.avgCalForLastSevendays?.map((avgCal: any) => avgCal.date).reverse();
 
     const avarageUserCaloriesChartdata = {
         labels,
         datasets: [
             {
-                data: adminReport.avgCalForLastSevendays?.map((avgCal: any) => avgCal.value),
+                data: adminReport.avgCalForLastSevendays?.map((avgCal: any) => avgCal.value).reverse(),
                 backgroundColor: 'gray',
             }
         ],
     };
 
     const lastSevenVsLastWeekChartData = {
-        labels: ['last 7 days entry', 'Week before 7 days entry'],
+        labels: ['Week before 7 days entry', 'Last 7 days entry'],
         datasets: [
             {
-                data: [adminReport?.lastSevenDaysEntries, adminReport?.weekBeforeLastSevenDaysEntries],
+                data: [adminReport?.weekBeforeLastSevenDaysEntries, adminReport?.lastSevenDaysEntries],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -70,17 +70,17 @@ const AdminReport = () => {
     };
     return (
         <>
-        <div className='mt-5'>
-            {isLoading && <Spinner />}
-            {!isLoading && (
-                <>
-                    <BarChart data={avarageUserCaloriesChartdata} options={options} />
-                    <div className='mt-20'>
-                        <BarChart data={lastSevenVsLastWeekChartData} options={options2}/>
-                    </div>
-                </>)
-            }
-        </div>
+            <div className='mt-5'>
+                {isLoading && <Spinner />}
+                {!isLoading && (
+                    <>
+                        <BarChart data={avarageUserCaloriesChartdata} options={options} />
+                        <div className='mt-20'>
+                            <BarChart data={lastSevenVsLastWeekChartData} options={options2} />
+                        </div>
+                    </>)
+                }
+            </div>
         </>
     )
 }
