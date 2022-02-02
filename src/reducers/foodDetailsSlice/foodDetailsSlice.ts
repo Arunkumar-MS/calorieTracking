@@ -30,9 +30,8 @@ const foodDetailSlice = createSlice({
             const { payload } = action;
             state.allFoodEntryList = payload;
         },
-        remove: (state, action: PayloadAction<FoodEntry[]>) => {
-            const { payload } = action;
-            state.foodEntryList = payload;
+        resetfoodDetailsStore: (state) => {
+           state = initialState;
         },
     },
 });
@@ -40,7 +39,7 @@ const foodDetailSlice = createSlice({
 export const {
     updateAllFoodEntry,
     updateEntry,
-    remove,
+    resetfoodDetailsStore,
 } = foodDetailSlice.actions;
 
 export const selectFoodEntryList = (state: RootState) => state.foodEntry.foodEntryList

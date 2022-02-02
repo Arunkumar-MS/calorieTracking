@@ -5,8 +5,10 @@ import cookies from "js-cookie";
 import {
     useAppSelector,
 } from '@Store/hooks';
-import { selectUser } from "@Reducers/userSlice/userSlice";
+import { resetUserStore, selectUser } from "@Reducers/userSlice/userSlice";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { resetfoodDetailsStore } from "@Reducers/foodDetailsSlice/foodDetailsSlice";
 
 
 
@@ -14,12 +16,15 @@ export const Menu = () => {
     const [isOpen, setIsOpen] = React.useState(false);
     const router = useRouter();
     const user = useAppSelector(selectUser);
+    const dispatch = useDispatch();
 
     const isAdmin = user.role == 'admin';
 
 
     const signOut = () => {
         cookies.remove('token');
+        dispatch(resetUserStore());
+        dispatch(resetfoodDetailsStore())
         router.push('./login');
     }
 

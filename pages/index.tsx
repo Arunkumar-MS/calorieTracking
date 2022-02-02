@@ -1,43 +1,34 @@
-import type { NextPage } from 'next';
-
-import React from 'react';
-import Layout from '@Layout/index';
-import {
+import React from 'react';import {
   useAppDispatch,
 } from '@Store/hooks';
-import { updateUser } from '@Reducers/userSlice/userSlice';
-import { Props as HomePageProps } from '@Pages/home.types';
-import authAccess from '@Service/serverAuth';
 import UserFlow from '@Component/userFlow/userFlow';
-import axios from '@Service/core/axios';
 import { updateEntry } from '@Reducers/foodDetailsSlice/foodDetailsSlice';
+import Spinner from '@Component/spinner';
+import useSWR from 'swr';
+import withAuth from 'src/authHoc';
+import { SWR_OPTIONS } from 'src/constens/swr';
+import fetcher from '@Service/core/fetcher';
 
-type Props = NextPage & HomePageProps;
 
-const getFoodDetails = () => {
-  return axios.get('/tracker/getfoodEntry');
-}
+const Home = () => {
 
-
-const Home = (props: Props) => {
   const dispatch = useAppDispatch();
+  const { data, error } = useSWR('/tracker/getfoodEntry', fetcher, { ...SWR_OPTIONS });
 
   React.useEffect(() => {
-    dispatch(updateUser(props.user))
-    getFoodDetails().then((list) => dispatch(updateEntry(list.data)));
-  }, []);
+    if(data) {
+      dispatch(updateEntry(data));
+    }
+  }, [data]);
 
   return (
-    <Layout>
-      <UserFlow />
-    </Layout>
+    <>
+      {!data && !error && <Spinner className='mt-20'/>}
+      {data && <UserFlow />}
+      {error && <div className='text-center text-gray-500'> Something went worng please try later! </div>}
+    </>
 
   )
 }
 
-export async function getServerSideProps(ctx: any) {
-  const props = await authAccess(ctx);
-  return props;
-}
-
-export default Home;
+export default withAuth(Home, ['admin','user']);

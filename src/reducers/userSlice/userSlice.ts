@@ -25,7 +25,7 @@ export const counterSlice = createSlice({
             state.userId = payload.userId;
             state.calorieLimit = Number(payload.calorieLimit);
         },
-        remove: state => {
+        resetUserStore: state => {
             state = initialState;
         },
 
@@ -34,7 +34,7 @@ export const counterSlice = createSlice({
 
 export const {
     updateUser,
-    remove,
+    resetUserStore,
 } = counterSlice.actions;
 
 export const selectName = (state: RootState) => state.user.name;

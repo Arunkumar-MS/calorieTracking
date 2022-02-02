@@ -1,33 +1,24 @@
-import type { NextPage } from 'next';
 import React from 'react';
-import Layout from '@Layout/index';
 import { useForm } from "react-hook-form";
 import { useRouter } from 'next/router';
 import {
     useAppDispatch,
 } from '@Store/hooks';
-import { updateUser } from '@Reducers/userSlice/userSlice';
-import { Props as InitailProps } from '@Pages/home.types';
-import authAccess from '@Service/serverAuth';
 import axios from '@Service/core/axios';
 import { FoodEntry } from '@Pages/addFood.types';
 import { updateEntry } from '@Reducers/foodDetailsSlice/foodDetailsSlice';
 import getUnixTime from 'date-fns/getUnixTime';
-
-type Props = NextPage & InitailProps;
+import withAuth from 'src/authHoc';
 
 
 const saveFood = (data: FoodEntry) => {
     return axios.post('/tracker/addFood', { ...data });
 }
 
-
-const AddFood = (props: Props) => {
+export const AddFoodComponent = () => {
     const {
         register,
         handleSubmit,
-        formState,
-        watch,
         formState: { errors }
     } = useForm();
 
@@ -35,9 +26,6 @@ const AddFood = (props: Props) => {
 
     const { query, push } = useRouter();
 
-    React.useEffect(() => {
-        dispatch(updateUser(props.user))
-    }, []);
 
     const onSubmit = (data: any) => {
         const withTime = {
@@ -110,7 +98,7 @@ const AddFood = (props: Props) => {
 
 
     return (
-        <Layout>
+        <>
             <form onSubmit={handleSubmit(onSubmit)}>
                 {renderRow('Food name', getFormRegisterPropsForString('name'), errors['name'], '(Pizza)', query.foodname)}
                 {renderRow('Consume qty  ', getFormRegisterPropsForNumber('consumedQty'), errors['consumedQty'], '(1)')}
@@ -126,14 +114,11 @@ const AddFood = (props: Props) => {
                 </div>
 
             </form>
-        </Layout>
+        </>
 
     )
 }
 
-export async function getServerSideProps(ctx: any) {
-    const props = await authAccess(ctx);
-    return props;
-}
 
+const AddFood = withAuth(AddFoodComponent, ['admin','user']); ;
 export default AddFood;

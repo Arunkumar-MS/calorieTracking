@@ -9,7 +9,7 @@ export const ListFoodDetails = (props: any) => {
                 <p className="font-medium capitalize" >{props.name}</p>
                 <p className="font-medium capitalize text-sm text-gray-500"> {format(fromUnixTime(props.addedDate), "yyyy-MM-dd HH:mm:ss")}</p>
             </div>
-            <div className="items-center flex w-full">
+            <div className="items-center flex w-full text-sm">
                 <div className="w-1/6 flex justify-center flex-col text-ellipsis text-center items-center">
                     <img className="rounded-lg w-12 h-12" src={props.imageUrl} />
                 </div>

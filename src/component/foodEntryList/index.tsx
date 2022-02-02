@@ -10,6 +10,7 @@ const MAX_ITEM_PER_PAGE = 10;
 interface Props {
     list: FoodEntry[];
     isAdmin?: boolean;
+    className?: string;
 }
 
 const FoodEntryList = (props: Props) => {
@@ -24,7 +25,7 @@ const FoodEntryList = (props: Props) => {
     const showNextButton = end < list.length;
 
     return (
-        <div className="md:w-10/12 mt-2 md:m-2 md:mt-0 divide-y divide-solid">
+        <div className={`md:w-10/12 mt-2 md:m-2 md:mt-0 divide-y divide-solid ${props.className}`}>
             {currentViewItem?.map((item) => {
                 return <ListFoodDetails {...item} key={item._id} isAdmin={props.isAdmin} />
             })}

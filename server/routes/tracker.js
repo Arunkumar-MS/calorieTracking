@@ -15,7 +15,7 @@ router.post("/addFood", authorization(['admin', 'user']), async (req, res, next)
     try {
         var newFoodToSave = new FoodListModel({ ...content, userId });
         await newFoodToSave.save();
-        const userFoodList = await FoodListModel.find({}).sort({addedDate: -1});
+        const userFoodList = await FoodListModel.find({ userId }).sort({ addedDate: -1 });
         res.status(200).send(userFoodList);
         return;
     } catch (e) {

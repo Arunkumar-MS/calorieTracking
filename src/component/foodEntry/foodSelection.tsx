@@ -16,7 +16,7 @@ export interface FoodAddCardProps {
     onAdd: ()=>void;
 }
 
-const saveFood = (data) => {
+const saveFood = (data: any) => {
     return axios.post('/tracker/addFood', { ...data });
 }
 

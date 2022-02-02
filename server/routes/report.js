@@ -18,7 +18,7 @@ router.get("/getuserReport", authorization(['admin', 'user']), async (req, res, 
         const lastWeekStartDate = getUnixTime(startOfDay(new Date(Date.now() - 6 * 24 * 60 * 60 * 1000)));
         const lastSevenDaysData = await FoodListModel.find({ userId, addedDate: { $gte: lastWeekStartDate } });
         const groupedEntry = lastSevenDaysData.reduce((hashMap, item) => {
-            const key = format(fromUnixTime(item.addedDate), 'dd_MM_YYY');
+            const key = format(fromUnixTime(item.addedDate), 'dd:MM:YYY');
             const value = hashMap[key] || 0;
 
             hashMap[key] = value + Number(item.consumedCalories);
@@ -37,60 +37,40 @@ router.get("/getuserReport", authorization(['admin', 'user']), async (req, res, 
 router.get("/getAdminReport", authorization(['admin']), async (req, res, next) => {
     const lastWeekStartDate = getUnixTime(startOfDay(new Date(Date.now() - 6 * 24 * 60 * 60 * 1000)));
     const prevWeekStartDate = getUnixTime(startOfDay(new Date(Date.now() - 13 * 24 * 60 * 60 * 1000)));
-
-    const userId = req.ctx.user['_id'];
     try {
-
-
-        const lastSevenDaysData = await FoodListModel.find({ userId, addedDate: { $gte: lastWeekStartDate } });
+        const lastSevenDaysData = await FoodListModel.find({ addedDate: { $gte: lastWeekStartDate } });
         const groupedByDate = lastSevenDaysData.reduce((hashMap, item) => {
-            const key = format(fromUnixTime(item.addedDate), 'dd_MM_YYY');
+            const key = format(fromUnixTime(item.addedDate), 'dd:MM:YYY');
             const value = hashMap[key] || [];
             hashMap[key] = [...value, item];
             return hashMap;
         }, {});
 
-        Object.keys(groupedByDate).map((key) => {
-
-            const dayItems = groupedByDate[key];
+        const avgCalForLastSevendays = Object.keys(groupedByDate).map((dateKey) => {
+            const dayItems = groupedByDate[dateKey];
             const groupedByUser = groupBy(dayItems, ['userId']);
-
-          Object.keys(groupedByUser).reduce((result, userKey)=> {
-
-            const singleUserEntry = groupedByUser[userKey];
-            const totalCal = singleUserEntry.reduce((re,item)=>{
-                return re + item.consumedCalories;
-
-            },0);
-
-           
-
-
-          },0);
-
-
-
-
+            const allUsersCalList = Object.keys(groupedByUser).map(userKey => {
+                const singleUserEntry = groupedByUser[userKey];
+                const totalCal = singleUserEntry.reduce((re, item) => {
+                    return re + Number(item.consumedCalories);
+                }, 0);
+                return totalCal;
+            }, 0);
+            const avgCaloriesAddPerDay = allUsersCalList.reduce((cal, item) => cal + item, 0) / allUsersCalList.length;
+            return {
+                date: dateKey,
+                value: avgCaloriesAddPerDay
+            };
         });
 
-        // const groupedEntry = lastSevenDaysData.reduce((groupBy, item) => {
-        //     const groupBydateKey = format(fromUnixTime(item.addedDate), 'dd_MM_YYY');
-        //     const value = groupBy.groupBydate[groupBydateKey] || 0;
-        //     groupBy.groupBydate[groupBydateKey] = value + Number(item.consumedCalories);
-        //     const groupByuserKey = item.userId;
-        //     const preData = groupBy.groupByuser[groupByuserKey] || [];
-        //     groupBy.groupByuser[groupByuserKey] = [...preData, item];
-        //     return groupBy;
-        // }, { groupBydate: {}, groupByuser: {} });
+        const prevLastSevenDaysData = await FoodListModel.find({ addedDate: { $gte: prevWeekStartDate, $lt: lastWeekStartDate } });
 
-
-        const prevLastSevenDaysData = await FoodListModel.find({ userId, addedDate: { $gte: prevWeekStartDate, $lt: lastWeekStartDate } });
-        // const groupByuser 
         const result = {
+            avgCalForLastSevendays,
             lastSevenDaysEntries: lastSevenDaysData.length,
             weekBeforeLastSevenDaysEntries: prevLastSevenDaysData.length,
         }
-        res.status(200).send(groupedEntry);
+        res.status(200).send(result);
         return;
     } catch (e) {
         logger.error('getfoodEntry: Something went wrong', e);
