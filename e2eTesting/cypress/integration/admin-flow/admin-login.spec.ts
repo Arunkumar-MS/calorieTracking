@@ -20,20 +20,28 @@ context('Admin Flow', () => {
         cy.get('[data-test-id="login-page-submit"]')
             .click();
 
+        cy.wait(4000); 
+        // Note: Adding this delay just to see wt all we are testing in the flow. 
+        // current it very fast we will not even notice wt is beeing tested
+        // so for demo purpose add this delays.  
+        // without these dealy here and below  also works. 
+                    
+
         cy.get('[data-test-id="home-page-add-item-card"]')
             .click();
 
         cy.get('[data-test-id="home-page-add-item-modal-input"]')
             .type(testConfig.searchTerm);
 
-        cy.wait(2000);
+        cy.wait(4000);
 
         cy.get('[data-test-id="home-page-suggesion-list"]')
             .first()
             .first()
             .first()
             .click();
-        cy.wait(3000);
+
+        cy.wait(4000);
         let text = '';
         cy.get('[data-test-id="suggesion-food-modal-selected-food-name"]').then(($div) => {
             text = $div.text();
@@ -42,43 +50,42 @@ context('Admin Flow', () => {
 
             cy.get('[data-test-id="suggesion-food-modal-add-button"]')
                 .click();
-
+            cy.wait(4000);
             cy.contains('p', text);
         });
 
         cy.get('[data-test-id="menu-manage-food-entries"]')
             .should('be.visible')
-
+            cy.wait(4000);
         cy.intercept('GET', 'http://localhost:3001/report/getuserReport').as('getuserReport');
 
         cy.get('[data-test-id="menu-view-report"]')
             .click();
-
         cy.wait('@getuserReport');
 
         cy.get('[data-test-id="report-page-admin-section"]')
             .should('be.visible')
+        cy.wait(4000);
 
         cy.get('[data-test-id="report-page-title"]')
             .contains('Your last 7 days calorie consumption report');
 
-        cy.wait(1000);
+        cy.wait(4000);
 
         cy.get('[data-test-id="report-page-admin-report"]')
             .click();
-
         cy.get('canvas')
             .should(($canvas) => {
                 expect($canvas).to.have.length(2);
             });
-
+        cy.wait(4000);
         cy.get('[data-test-id="menu-manage-food-entries"]')
             .click();
+        cy.wait(4000);
 
         cy.get('[data-test-id="manageFoodEntryPage-add-new-food-entry" ]')
             .click();
-
-        cy.wait(1000);
+        cy.wait(4000);
         const { adminNewAdd } = testConfig;
         cy.get('[data-test-id="input-form-foodname"]')
             .type(adminNewAdd.foodName);
@@ -95,7 +102,7 @@ context('Admin Flow', () => {
         cy.get('[data-test-id="input-form-userid"]')
             .type(adminNewAdd.userId);
 
-        cy.wait(500);
+        cy.wait(4000);
 
         cy.intercept('POST', 'http://localhost:3001/tracker/addOtherUserFoodEntry').as('saveFood');
 
@@ -105,10 +112,10 @@ context('Admin Flow', () => {
         cy.wait('@saveFood');
         
         cy.contains('p',adminNewAdd.foodName);
+        cy.wait(4000);
 
         cy.get('[data-test-id="menu-sign-out"]')
             .click();
-
         cy.get('[data-test-id="login-page"')
             .find('[data-test-id="login-page-title"]')
             .should('have.text', 'Enter token below for login.');
