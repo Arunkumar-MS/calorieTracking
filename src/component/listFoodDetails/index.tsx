@@ -11,7 +11,7 @@ export const ListFoodDetails = (props: any) => {
             </div>
             <div className="items-center flex w-full text-sm">
                 <div className="w-1/6 flex justify-center flex-col text-ellipsis text-center items-center">
-                    <img className="rounded-lg w-12 h-12" src={props.imageUrl} />
+                    <img className="rounded-lg w-12 h-12 object-cover" src={props.imageUrl} alt={props.name || 'imageUrl'} />
                 </div>
                 <div className="pl-5 w-5/6 pr-5 text-gray-600 ">
                     <p className="flex justify-between"> <span>Serving unit </span> <span> {props.servingUnit}</span></p>

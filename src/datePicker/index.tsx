@@ -19,12 +19,13 @@ const DatePicker = (props: DatePickerProps) => {
 
     return (
         <Picker
-            className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+            className="max-w-lg block w-full mx-5 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
             selected={startDate}
             onChange={onSelectHandler}
             showTimeSelect
             maxDate={new Date()}
             dateFormat="MMMM d, yyyy hh:mm:ss"
+            popperPlacement="top"
         />
     );
 }

@@ -11,6 +11,9 @@ import { editFoodEntry, addOtherUserFoodEntry } from '@Service/foodService';
 import Spinner from '@Component/spinner';
 import DatePicker from 'src/datePicker';
 import { fromUnixTime } from 'date-fns';
+import UseNutritionSuggestion from '@Component/customHook/nutrition/nutritionSuggestionHook';
+import SuggestionList from '@Component/foodEntry/suggestionList';
+import { suggestionItem } from '@Component/foodEntry/foodEntry.types';
 
 interface FormProps {
     item?: FoodEntry | any;
@@ -30,20 +33,25 @@ const FoodAddForm = (props: Props) => {
         register,
         handleSubmit,
         watch,
+        setValue,
         formState: { errors }
     } = useForm();
 
+    const [selectedFoodName, setSelectedFoodName] = React.useState(props.item?.name || '');
+    const [nameValidation, setNameValidation] = React.useState('');
+    const [isOpen, setOpen] = React.useState(false);
+    const [isNutritionLoading, nutritionList] = UseNutritionSuggestion(selectedFoodName, isOpen);
 
-    const getDefaultDate = () => {
+
+    const getDefaultDate = React.useMemo(() => {
         if (props.item?.addedDate) {
-            console.log(props.item?.addedDate);
             return fromUnixTime(props.item?.addedDate);
         }
         return new Date();
-    }
+    }, props.item?.addedDate)
 
-    const [selectedDate, setSelectedDate] = React.useState(getDefaultDate());
-    
+    const [selectedDate, setSelectedDate] = React.useState(getDefaultDate);
+
     const isAdminEdit = props.isAdmin && props.type === 'edit';
     const [error, setError] = React.useState('');
     const [isLoading, setIsLoading] = React.useState(false);
@@ -64,6 +72,11 @@ const FoodAddForm = (props: Props) => {
     }
 
     const onSubmit = async (formData: any) => {
+        if(!/^[A-Za-z ,_]+$/i.exec(selectedFoodName)) {
+            console.log(selectedFoodName);
+            setNameValidation('Please enter valid food name');
+            return
+        }
         onClickHandler();
         if (props.onSubmit) {
             props.onSubmit(formData);
@@ -75,6 +88,7 @@ const FoodAddForm = (props: Props) => {
             apiService = editFoodEntry;
             formData = {
                 ...formData,
+                name: selectedFoodName,
                 addedDate: getUnixTime(selectedDate),
                 userId: props.item?.userId,
                 _id: props.item?._id
@@ -83,6 +97,7 @@ const FoodAddForm = (props: Props) => {
         if (props.type === 'add') {
             formData = {
                 ...formData,
+                name: selectedFoodName,
                 addedDate: getUnixTime(selectedDate)
             }
             apiService = addOtherUserFoodEntry;
@@ -118,7 +133,6 @@ const FoodAddForm = (props: Props) => {
             ...register(name, {
                 required: true,
                 maxLength: 150,
-                pattern: /^[A-Za-z ,_]+$/i
             })
         }
     }
@@ -162,7 +176,7 @@ const FoodAddForm = (props: Props) => {
     const renderRow = (name: string, registerProps: any, error: any, exp?: string, defultValue?: any, className?: string) => {
         return (
             <div className={`sm:grid sm:grid-cols-2 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 pt-2 pb-2 sm:pt-5  sm:pb-5 ${className}`}>
-                <label htmlFor="last-name" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                <label className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                     <span>{name}</span>
                     <span className='text-xs'>{exp}</span>
                 </label>
@@ -185,7 +199,7 @@ const FoodAddForm = (props: Props) => {
         )
 
     }
-    
+
     const renderDatePicker = () => {
 
         return (
@@ -194,7 +208,7 @@ const FoodAddForm = (props: Props) => {
                     <span>Select date</span>
                 </label>
                 <div>
-                    <DatePicker onSelect={(date) => setSelectedDate(date)} defaultDate={getDefaultDate()} />
+                    <DatePicker onSelect={(date) => setSelectedDate(date)} defaultDate={getDefaultDate} />
                 </div>
             </div>
         )
@@ -206,9 +220,30 @@ const FoodAddForm = (props: Props) => {
         return renderRow('User Id', getFormRegisterPropsForUserId('userId'), errors['userId'], '', defultValue)
     }
 
+    const onSuggetionSelection = (selected: suggestionItem) => {
+        setOpen(false);
+        setNameValidation('');
+        setSelectedFoodName(selected.food_name);
+        selected.serving_unit &&  setValue('servingUnit', selected.serving_unit);
+        selected.photo?.thumb &&  setValue('imageUrl', selected.photo?.thumb);
+    }
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            {renderRow('Food name', getFormRegisterPropsForString('name'), errors['name'], '(Pizza)', defaultFoodValue)}
+            {renderRow('Food name', {
+                value: selectedFoodName, onChange: (e: any) => {
+                    !isOpen && setOpen(true);
+                    setNameValidation('');
+                    setSelectedFoodName(e.target.value);
+                }
+            }, nameValidation, '(Pizza)', defaultFoodValue)}
+            {(isOpen && nutritionList.length) ?
+                <div className='absolute border-2 z-10 bg-white -mt-5'>
+                    <SuggestionList suggestions={nutritionList} onClickHandler={onSuggetionSelection} />
+                </div>
+                : null}
+            {!nutritionList.length && isNutritionLoading &&
+                <div className='absolute border-2 z-10 bg-white w-full'><Spinner /></div>}
             {renderRow('Consume qty  ', getFormRegisterPropsForNumber('consumedQty'), errors['consumedQty'], '(1)', defaultConsumedQty)}
             {renderRow('Consumed Calories', getFormRegisterPropsForNumber('consumedCalories'), errors['consumedCalories'], '(120)', defaultConsumedCalories)}
 

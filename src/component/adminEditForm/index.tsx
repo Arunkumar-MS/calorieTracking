@@ -17,7 +17,7 @@ const AdminFoodEditForm: FC<any> = ({ onClose, type, ...rest }) => {
                 <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" />
                 <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">​</span>
 
-                <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle w-80 sm:max-w-sm sm:w-full sm:p-6">
+                <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle w-96 sm:max-w-sm sm:w-full sm:p-6">
                     <div className="flex -mt-5 -mr-5 justify-end" onClick={onClose}> <CloseIcon className="h-10 w-10 fill-current text-gray-400 hover:text-gray-600" /> </div>
                     <div className="">
                         <FoodAddForm  type={type} isAdmin={true} {...rest}  onSuccess={onClose} />

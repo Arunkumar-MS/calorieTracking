@@ -1,36 +1,16 @@
 import React, { FC } from "react";
 import { CloseIcon } from "src/svgs/closeIcon.svg";
 import debounce from "lodash.debounce";
-import axios from "axios";
 import { useRouter } from 'next/router';
 import { NutritionDetails, suggestionItem } from "./foodEntry.types";
 import SuggestionList from "./suggestionList";
 import Spinner from "@Component/spinner";
 import FoodAddCard from "./foodSelection";
 import Link from 'next/link'
+import { fetchNutrition, fetchSuggestion } from "@Service/nutritionApi";
 
 interface FoodEntryProps {
     onClose: () => void;
-}
-
-const fetchSuggestion = (query: string) => {
-    const headers = {
-        'x-app-key': '24ef67c5d46245ab6d32977d7a8c013f',
-        'x-app-id': '3846263c',
-        'content-type': 'application/json',
-    };
-    return axios.get(`https://trackapi.nutritionix.com/v2/search/instant?branded=true&common=true&query=${query}&self=false`, { headers })
-}
-
-
-
-const fetchNutrition = (query: string) => {
-    const headers = {
-        'x-app-key': '24ef67c5d46245ab6d32977d7a8c013f',
-        'x-app-id': '3846263c',
-        'content-type': 'application/json',
-    };
-    return axios.post(`https://trackapi.nutritionix.com/v2/natural/nutrients`, { query }, { headers })
 }
 
 const FoodEntry: FC<FoodEntryProps> = ({ onClose }) => {
@@ -44,9 +24,13 @@ const FoodEntry: FC<FoodEntryProps> = ({ onClose }) => {
 
     const optimizedFetch = React.useCallback(debounce((query) => {
         setNutritionLoading(true);
-        fetchSuggestion(query).then((nutritionSuggestion) => {
+        fetchSuggestion(query)
+        .then((nutritionSuggestion) => {
             const { data } = nutritionSuggestion;
             setNutritionList([...data.common, ...data.branded]);
+            setNutritionLoading(false);
+        })
+        .catch(()=>{
             setNutritionLoading(false);
         });
     }, 300), []);
@@ -107,7 +91,7 @@ const FoodEntry: FC<FoodEntryProps> = ({ onClose }) => {
                 <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" />
                 <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">​</span>
 
-                <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle w-80 sm:max-w-sm sm:w-full sm:p-6">
+                <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle w-96 sm:max-w-sm sm:w-full sm:p-6">
                     <div className="flex -mt-5 -mr-5 justify-end" onClick={onClose}> <CloseIcon className="h-10 w-10 fill-current text-gray-400 hover:text-gray-600" /> </div>
 
                     <div className="">
