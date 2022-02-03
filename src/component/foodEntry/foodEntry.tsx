@@ -25,14 +25,14 @@ const FoodEntry: FC<FoodEntryProps> = ({ onClose }) => {
     const optimizedFetch = React.useCallback(debounce((query) => {
         setNutritionLoading(true);
         fetchSuggestion(query)
-        .then((nutritionSuggestion) => {
-            const { data } = nutritionSuggestion;
-            setNutritionList([...data.common, ...data.branded]);
-            setNutritionLoading(false);
-        })
-        .catch(()=>{
-            setNutritionLoading(false);
-        });
+            .then((nutritionSuggestion) => {
+                const { data } = nutritionSuggestion;
+                setNutritionList([...data.common, ...data.branded]);
+                setNutritionLoading(false);
+            })
+            .catch(() => {
+                setNutritionLoading(false);
+            });
     }, 300), []);
 
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,12 +96,12 @@ const FoodEntry: FC<FoodEntryProps> = ({ onClose }) => {
 
                     <div className="">
                         <div className="">
-                            <input onChange={onChangeHandler} type="text" className="block w-full drop-shadow-md border border-transparent rounded-md px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600" placeholder="Search food" />
+                            <input data-test-id="home-page-add-item-modal-input" onChange={onChangeHandler} type="text" className="block w-full drop-shadow-md border border-transparent rounded-md px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600" placeholder="Search food" />
                         </div>
                     </div>
                     {renderAddNewFoodSection()}
-                    <div className="h-44">
-                        {!isNutritionLoading && nutritionList.length ? <SuggestionList suggestions={nutritionList} onClickHandler={onSelection} /> : null}
+                    <div className="h-44" >
+                        {!isNutritionLoading && nutritionList.length ? <div data-test-id="home-page-suggesion-list"> <SuggestionList suggestions={nutritionList} onClickHandler={onSelection} /> </div> : null}
                         {isNutritionLoading && <Spinner className="mt-3" />}
                     </div>
                     {foodName && (

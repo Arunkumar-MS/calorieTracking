@@ -17,14 +17,14 @@ const ReportComponent = () => {
     if (isAdmin) {
         return (
             <>
-                <div className="mb-5">
+                <div className="mb-5" data-test-id="report-page-admin-section">
                     <div className="border-b border-gray-200">
                         <nav className="-mb-px flex space-x-8 items-center" aria-label="Tabs">
                             {/* Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" */}
                             <a onClick={() => setSelectedTab('user')} href="#" className={selectedTab === 'user' ? selectedClass : nonSelectedClass}>
                                 Youre report
                             </a>
-                            <a onClick={() => setSelectedTab('admin')} href="#" className={selectedTab === 'admin' ? selectedClass : nonSelectedClass}>
+                            <a data-test-id="report-page-admin-report" onClick={() => setSelectedTab('admin')} href="#" className={selectedTab === 'admin' ? selectedClass : nonSelectedClass}>
                                 All other report
                             </a>
                         </nav>

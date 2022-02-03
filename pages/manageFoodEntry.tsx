@@ -32,7 +32,7 @@ const ManageFoodEntry = () => {
     <>
       <>
         <div className='flex items-center flex-col'>
-          <div onClick={() => setModalType('add')} className='cursor-pointer px-3 py-3 m-5 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
+          <div data-test-id="manageFoodEntryPage-add-new-food-entry" onClick={() => setModalType('add')} className='cursor-pointer px-3 py-3 m-5 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
             Add new food entry
           </div>
           {foodEntry.length ? <FoodEntryList list={foodEntry} isAdmin={true}  className='w-full'/> : null}

@@ -21,7 +21,7 @@ export const CalorieTrackerCard = (props: CalorieTrackerCardProps) => {
     const totalCaloreConsumedToday = React.useMemo(() => todayuserEntry.reduce((result, item) => {
         return Number((item as any)?.consumedCalories) + result;
     }, 0), [todayuserEntry]);
-    
+
     const consumedCalorePersentage = (totalCaloreConsumedToday && (totalCaloreConsumedToday / userCalorieLimit) * 100) || 0;
     const isLimitReached = consumedCalorePersentage >= 100;
 
@@ -43,7 +43,7 @@ export const CalorieTrackerCard = (props: CalorieTrackerCardProps) => {
                     {isLimitReached && (<div className="text-center text-red-700">Day limit exceeded! </div>)}
 
                 </div>
-                <div className='flex items-center md:mt-3 cursor-pointer' onClick={() => setOpenFoodModal(!openFoodModal)} >
+                <div data-test-id="home-page-add-item-card" className='flex items-center md:mt-3 cursor-pointer' onClick={() => setOpenFoodModal(!openFoodModal)} >
                     <span className="mr-3">Add item</span>
                     <PlusCircle className="h-8 w-8" fill={isLimitReached ? "red" : "none"} />
                 </div>

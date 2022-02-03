@@ -19,7 +19,7 @@ ChartJS.register(
   Legend
 );
 const BarChart =(props: any) => {
-    return <Bar options={props.options} data={props.data} />;
+    return <Bar options={props.options} data={props.data} data-test-id={"asdasd"}/>;
   }
   
 export default BarChart;

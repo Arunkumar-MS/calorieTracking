@@ -86,18 +86,18 @@ const InviteFriendComponent = () => {
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div className="flex flex-col">
                                     <div className="">
-                                        <input {...getFormRegisterPropsForString("name")} type="text" className="mt-10 block w-full border border-transparent rounded-md px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600" placeholder="Enter Name" />
+                                        <input data-test-id="invite-friend-page-name" {...getFormRegisterPropsForString("name")} type="text" className="mt-10 block w-full border border-transparent rounded-md px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600" placeholder="Enter Name" />
                                         {errors['name'] && <span className="flex items-center font-medium tracking-wide text-red-400 text-xs mt-1 ml-1">
                                             {`Please enter valid name!`}
                                         </span>}
-                                        <input  {...getFormRegisterPropsForEmail("emailId")} type="email" className="mt-5 mb-5 block w-full border border-transparent rounded-md px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600" placeholder="Enter email id" />
+                                        <input data-test-id="invite-friend-page-email"  {...getFormRegisterPropsForEmail("emailId")} type="email" className="mt-5 mb-5 block w-full border border-transparent rounded-md px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600" placeholder="Enter email id" />
                                         {errors['emailId'] && <span className="flex items-center font-medium tracking-wide text-red-400 text-xs mt-1 ml-1 mb-2">
                                             {`Please enter valid email id!`}
                                         </span>}
                                     </div>
                                     <div className="flex justify-center">
                                         <button disabled={isLoading} type="button" onClick={() => router.back()} className="block w-full mr-2 md:mr-8 md:w-80 rounded-md border border-transparent py-1 px-5 md:py-3 bg-indigo-500 text-base font-medium text-white shadow hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 sm:px-10">Go back</button>
-                                        <button disabled={isLoading} type="submit" className="block w-full ml-2 md:w-80 rounded-md border border-transparent px-5 py-3 bg-indigo-500 text-base font-medium text-white shadow hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 sm:px-10">Invite</button>
+                                        <button data-test-id="invite-friend-page-btc"  disabled={isLoading} type="submit" className="block w-full ml-2 md:w-80 rounded-md border border-transparent px-5 py-3 bg-indigo-500 text-base font-medium text-white shadow hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 sm:px-10">Invite</button>
                                     </div>
                                     {isLoading && <Spinner />}
                                 </div>
@@ -115,7 +115,7 @@ const InviteFriendComponent = () => {
                                     <div>
                                         {`Share below toekn with youre friend ${user?.name}`}
                                     </div>
-                                    <p className="mt-5 mb-5 italic text-gray-100 break-all	text-sm	">
+                                    <p data-test-id="invite-friend-page-token"  className="mt-5 mb-5 italic text-gray-100 break-all	text-sm	">
                                         {user?.token}
                                     </p>
                                 </div>

@@ -172,7 +172,7 @@ const FoodAddForm = (props: Props) => {
     }
 
 
-    const renderRow = (name: string, registerProps: any, error: any, exp?: string, defultValue?: any, className?: string) => {
+    const renderRow = (id: string, name: string, registerProps: any, error: any, exp?: string, defultValue?: any, className?: string) => {
         return (
             <div className={`sm:grid sm:grid-cols-2 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 pt-2 pb-2 sm:pt-5  sm:pb-5 ${className}`}>
                 <label className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
@@ -185,7 +185,7 @@ const FoodAddForm = (props: Props) => {
                         <input
                             {...registerProps}
                             type="text"
-                            id="last-name"
+                            data-test-id={`input-form-${id.toLowerCase()}`}
                             defaultValue={defultValue}
                             className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                         />
@@ -216,7 +216,7 @@ const FoodAddForm = (props: Props) => {
 
     const renderUserId = () => {
         const defultValue = isAdminEdit ? props.item?.userId : '';
-        return renderRow('User Id', getFormRegisterPropsForUserId('userId'), errors['userId'], '', defultValue)
+        return renderRow('userId','User Id', getFormRegisterPropsForUserId('userId'), errors['userId'], '', defultValue)
     }
 
     const onSuggetionSelection = (selected: suggestionItem) => {
@@ -229,7 +229,7 @@ const FoodAddForm = (props: Props) => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            {renderRow('Food name', {
+            {renderRow('foodName', 'Food name', {
                 value: selectedFoodName, onChange: (e: any) => {
                     !isOpen && setOpen(true);
                     setNameValidation('');
@@ -243,16 +243,16 @@ const FoodAddForm = (props: Props) => {
                 : null}
             {!nutritionList.length && isNutritionLoading &&
                 <div className='absolute border-2 z-10 bg-white w-full'><Spinner /></div>}
-            {renderRow('Consume qty  ', getFormRegisterPropsForNumber('consumedQty'), errors['consumedQty'], '(1)', defaultConsumedQty)}
-            {renderRow('Consumed Calories', getFormRegisterPropsForNumber('consumedCalories'), errors['consumedCalories'], '(120)', defaultConsumedCalories)}
+            {renderRow('consumedQty', 'Consume qty  ', getFormRegisterPropsForNumber('consumedQty'), errors['consumedQty'], '(1)', defaultConsumedQty)}
+            {renderRow('consumedCalories', 'Consumed Calories', getFormRegisterPropsForNumber('consumedCalories'), errors['consumedCalories'], '(120)', defaultConsumedCalories)}
 
-            {renderRow('Serving unit ', getFormRegisterPropsForString('servingUnit'), errors['servingUnit'], '(Slice)', defaultServingUnit)}
-            {renderRow('Consumed weight grams ', getFormRegisterPropsForNumber('consumedWeightGrams'), errors['consumedWeightGrams'], '(107)', defaultConsumedWeightGrams)}
-            {renderRow('Image Url', getFormRegisterPropsForURL('imageUrl'), errors['imageUrl'], '', defaultImageUrl)}
+            {renderRow('servingUnit', 'Serving unit ', getFormRegisterPropsForString('servingUnit'), errors['servingUnit'], '(Slice)', defaultServingUnit)}
+            {renderRow('consumedWeightGrams','Consumed weight grams ', getFormRegisterPropsForNumber('consumedWeightGrams'), errors['consumedWeightGrams'], '(107)', defaultConsumedWeightGrams)}
+            {renderRow('imageUrl', 'Image Url', getFormRegisterPropsForURL('imageUrl'), errors['imageUrl'], '', defaultImageUrl)}
             {renderUserId()}
             {renderDatePicker()}
             <div className=' w-full flex justify-center'>
-                <button disabled={isLoading} type="submit" className={`flex justify-around items-center w-full md:w-5/12 mt-2 bg-blue-500 rounded-lg font-bold text-white text-center px-4 py-3 transition duration-300 ease-in-out hover:bg-blue-600 capitalize ${isLoading ? 'disabled:opacity-75 hover:bg-blue-500' : ''}`}>
+                <button data-test-id="input-form-submit-bt" disabled={isLoading} type="submit" className={`flex justify-around items-center w-full md:w-5/12 mt-2 bg-blue-500 rounded-lg font-bold text-white text-center px-4 py-3 transition duration-300 ease-in-out hover:bg-blue-600 capitalize ${isLoading ? 'disabled:opacity-75 hover:bg-blue-500' : ''}`}>
                     {props.type === 'edit' ? "Save" : "Add"}
                     {isLoading && <Spinner />}
                 </button>

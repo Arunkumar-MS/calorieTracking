@@ -46,7 +46,7 @@ const UserReport = () => {
         <div>
             {isLoading && <Spinner />}
             {!isLoading && <>
-            <div> Youre last 7 days caloriese consumption report  </div>
+            <div data-test-id="report-page-title"> Your last 7 days calorie consumption report  </div>
             <BarChart data={barChartdata} options={options} />
             </>}
         </div>

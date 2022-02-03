@@ -1,0 +1,11 @@
+{
+  "name": "e2e-ui-esting",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "cypress": "^9.4.1",
+    "date-fns": "^2.28.0",
+    "typescript": "^4.5.5"
+  }
+}

@@ -30,15 +30,15 @@ export const Menu = () => {
         return (
             <>
                 <Link href="/report">
-                    <MenuItem title="View report" />
+                    <MenuItem title="View report"  dataTestId='menu-view-report' />
                 </Link>
                 {isAdmin && <Link href="/manageFoodEntry">
-                    <MenuItem title="Manage food entries" />
+                    <MenuItem title="Manage food entries" dataTestId='menu-manage-food-entries' />
                 </Link>}
                 <Link href="/inviteFriend">
-                    <MenuItem title="Invite a friend" />
+                    <MenuItem title="Invite a friend" dataTestId='menu-invite-friend'/>
                 </Link>
-                <MenuItem title={<span className="flex md:flex-col "> <span className="hidden md:block"> {`Hi! ${user.name}`}</span> <span> Sign out</span></span>} onClick={signOut} />
+                <MenuItem title={<span className="flex md:flex-col "> <span className="hidden md:block"> {`Hi! ${user.name}`}</span> <span data-test-id="menu-sign-out"> Sign out</span></span>} onClick={signOut} />
             </>
         )
     }
