@@ -9,7 +9,8 @@ import { FoodEntry } from '@Pages/addFood.types';
 import { updateEntry } from '@Reducers/foodDetailsSlice/foodDetailsSlice';
 import getUnixTime from 'date-fns/getUnixTime';
 import withAuth from 'src/authHoc';
-import DatePicker from 'src/datePicker';
+import dynamic from "next/dynamic";
+const DatePicker = dynamic(()=> import("@Component/datePicker"));
 
 
 const saveFood = (data: FoodEntry) => {
@@ -104,7 +105,7 @@ export const AddFoodComponent = () => {
 
         return (
             <div className={`sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 pt-2 pb-2 sm:pt-5  sm:pb-5`}>
-                <label htmlFor="last-name" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                <label className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
                     <span>Select date</span>
                 </label>
                 <div>

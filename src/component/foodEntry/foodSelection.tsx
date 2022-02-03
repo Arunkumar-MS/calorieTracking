@@ -1,11 +1,11 @@
 import InputNumberCounter from "@Component/inputNumberCounter";
-import { FoodEntry } from "@Pages/addFood.types";
 import axios from "@Service/core/axios";
 import React from "react";
 import { useAppDispatch } from "@Store/hooks";
 import getUnixTime from "date-fns/getUnixTime";
 import { updateEntry } from "@Reducers/foodDetailsSlice/foodDetailsSlice";
-import DatePicker from "src/datePicker";
+import dynamic from "next/dynamic";
+const DatePicker = dynamic(()=> import("@Component/datePicker"))
 
 export interface FoodAddCardProps {
     servingQty: number;

@@ -96,7 +96,7 @@ const InviteFriendComponent = () => {
                                         </span>}
                                     </div>
                                     <div className="flex justify-center">
-                                        <button disabled={isLoading} type="button" onClick={() => router.back() } className="block w-full mr-2 md:mr-8 md:w-80 rounded-md border border-transparent py-1 px-5 md:py-3 bg-indigo-500 text-base font-medium text-white shadow hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 sm:px-10">Go back</button>
+                                        <button disabled={isLoading} type="button" onClick={() => router.back()} className="block w-full mr-2 md:mr-8 md:w-80 rounded-md border border-transparent py-1 px-5 md:py-3 bg-indigo-500 text-base font-medium text-white shadow hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 sm:px-10">Go back</button>
                                         <button disabled={isLoading} type="submit" className="block w-full ml-2 md:w-80 rounded-md border border-transparent px-5 py-3 bg-indigo-500 text-base font-medium text-white shadow hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 sm:px-10">Invite</button>
                                     </div>
                                     {isLoading && <Spinner />}
@@ -111,19 +111,18 @@ const InviteFriendComponent = () => {
                         }
                         {user && (
                             <div className="relative">
-                            <div className="flex flex-col text-center text-xl  md:text-2xl font-semibold   antialiased text-white">
-                                <div>
-                                    {`Share below toekn with youre friend ${user?.name}`}
+                                <div className="flex flex-col text-center text-xl  md:text-2xl font-semibold   antialiased text-white">
+                                    <div>
+                                        {`Share below toekn with youre friend ${user?.name}`}
+                                    </div>
+                                    <p className="mt-5 mb-5 italic text-gray-100 break-all	text-sm	">
+                                        {user?.token}
+                                    </p>
                                 </div>
-                                <p className="mt-5 mb-5 italic text-gray-100 break-all	text-sm	">
-                                    saasd {user?.token}
-                                </p>
-                            </div>
-                            <div className="flex justify-center">
-                                        <button  type="button" onClick={() => router.back() } className="block w-full mr-2 md:mr-8 md:w-80 rounded-md border border-transparent py-1 px-5 md:py-3 bg-indigo-500 text-base font-medium text-white shadow hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 sm:px-10">Go back</button>
-                                        <button  type="button" onClick={copy} className="block w-full ml-2 md:w-80 rounded-md border border-transparent px-5 py-3 bg-indigo-800 text-base font-medium text-white shadow hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 sm:px-10">Copy to clipboard</button>
-                            </div>
-
+                                <div className="flex justify-center">
+                                    <button type="button" onClick={() => router.back()} className="block w-full mr-2 md:mr-8 md:w-80 rounded-md border border-transparent py-1 px-5 md:py-3 bg-indigo-500 text-base font-medium text-white shadow hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 sm:px-10">Cancel</button>
+                                    <button type="button" onClick={copy} className="block w-full ml-2 md:w-80 rounded-md border border-transparent px-5 py-3 bg-indigo-800 text-base font-medium text-white shadow hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 sm:px-10">Copy to clipboard</button>
+                                </div>
                             </div>
                         )}
                     </div>

@@ -9,7 +9,8 @@ import { updateAllFoodEntry } from '@Reducers/foodDetailsSlice/foodDetailsSlice'
 import getUnixTime from 'date-fns/getUnixTime';
 import { editFoodEntry, addOtherUserFoodEntry } from '@Service/foodService';
 import Spinner from '@Component/spinner';
-import DatePicker from 'src/datePicker';
+import dynamic from "next/dynamic";
+const DatePicker = dynamic(()=> import("@Component/datePicker"))
 import { fromUnixTime } from 'date-fns';
 import UseNutritionSuggestion from '@Component/customHook/nutrition/nutritionSuggestionHook';
 import SuggestionList from '@Component/foodEntry/suggestionList';

@@ -30,7 +30,7 @@ const ReportComponent = () => {
                         </nav>
                     </div>
                 </div>
-                <div className='w-full md:w-1/3 m-auto text-gray-500 text-center'>
+                <div className='w-full md:w-2/4 m-auto text-gray-500 text-center'>
                     {selectedTab === 'admin' && (
                         <AdminReport />
                     )}
@@ -46,7 +46,7 @@ const ReportComponent = () => {
 
     return (
         <>
-            <div className='w-8/12 md:w-1/3 m-auto text-gray-500 text-center'>
+            <div className='w-8/12 md:w-2/4 m-auto text-gray-500 text-center'>
                 <UserReport />
             </div>
         </>
