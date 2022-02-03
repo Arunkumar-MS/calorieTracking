@@ -10,7 +10,7 @@ import getUnixTime from 'date-fns/getUnixTime';
 import { editFoodEntry, addOtherUserFoodEntry } from '@Service/foodService';
 import Spinner from '@Component/spinner';
 import dynamic from "next/dynamic";
-const DatePicker = dynamic(()=> import("@Component/datePicker"))
+const DatePicker = dynamic(()=> import("@Component/datePicker"));
 import { fromUnixTime } from 'date-fns';
 import UseNutritionSuggestion from '@Component/customHook/nutrition/nutritionSuggestionHook';
 import SuggestionList from '@Component/foodEntry/suggestionList';
@@ -73,8 +73,7 @@ const FoodAddForm = (props: Props) => {
     }
 
     const onSubmit = async (formData: any) => {
-        if(!/^[A-Za-z ,_]+$/i.exec(selectedFoodName)) {
-            console.log(selectedFoodName);
+        if(!selectedFoodName) {
             setNameValidation('Please enter valid food name');
             return
         }
@@ -120,7 +119,6 @@ const FoodAddForm = (props: Props) => {
                 setIsLoading(false);
             }
         } catch (e) {
-            console.log(e);
             setError('Someting went wrong. Please try again!');
             setIsLoading(false);
         }

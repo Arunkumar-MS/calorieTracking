@@ -41,7 +41,6 @@ const FoodAddCard = (props: FoodAddCardProps) => {
             servingUnit: props.servingUnit,
         }
         saveFood(data).then((list) => {
-            console.log(data);
             dispatch(updateEntry(list.data));
             props.onAdd();
         });

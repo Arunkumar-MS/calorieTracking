@@ -24,9 +24,8 @@ const withAuth = <P extends Base>(Component: React.ComponentType<P>, roles: Role
         const router = useRouter();
         const dispatch = useDispatch();
 
-        console.log(data);
         const canVist = data?.role && roles.includes(data.role);
-
+        
         React.useEffect(() => {
             if (data?.role) {
                 if (!roles.includes(data.role)) {
