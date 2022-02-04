@@ -51,4 +51,14 @@
 - Now you should be able to see tests running on terminal
 
 
+#### Lighthouse report
+
+
+##### Desktop with 50 food entry on home page
+<img src="lighthouseReport/desktop_with_50_food_entry.jpeg" width="200" height="300"/>
+
+
+
+##### Mobile with 50 food entry on home page
+<img src="llighthouseReport/mobile_with_50_food_entry.png" width="200" height="300"/>
 
