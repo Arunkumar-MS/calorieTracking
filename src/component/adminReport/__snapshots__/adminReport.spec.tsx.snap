@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AdminReport page should render properly 1`] = `
+<Fragment>
+  <div
+    className="mt-5"
+  >
+    <ForwardRef(LoadableComponent)
+      data={
+        Object {
+          "datasets": Array [
+            Object {
+              "backgroundColor": "gray",
+              "data": Array [
+                210.5,
+                189,
+                303.4,
+                11737.93,
+                1508.3500000000001,
+                839.6300000000001,
+              ],
+            },
+          ],
+          "labels": Array [
+            "31:01:2022",
+            "30:01:2022",
+            "29:01:2022",
+            "03:02:2022",
+            "01:02:2022",
+            "02:02:2022",
+          ],
+        }
+      }
+      options={
+        Object {
+          "plugins": Object {
+            "legend": null,
+            "title": Object {
+              "display": true,
+              "text": "Last 7 days avarage per user calories consumption per day",
+            },
+          },
+          "responsive": true,
+        }
+      }
+    />
+    <div
+      className="mt-20"
+    >
+      <ForwardRef(LoadableComponent)
+        data={
+          Object {
+            "datasets": Array [
+              Object {
+                "backgroundColor": Array [
+                  "rgba(255, 99, 132, 0.2)",
+                  "rgba(54, 162, 235, 0.2)",
+                ],
+                "borderColor": Array [
+                  "rgba(255, 99, 132, 1)",
+                  "rgba(54, 162, 235, 1)",
+                ],
+                "borderWidth": 1,
+                "data": Array [
+                  7,
+                  83,
+                ],
+              },
+            ],
+            "labels": Array [
+              "Week before 7 days entry",
+              "Last 7 days entry",
+            ],
+          }
+        }
+        options={
+          Object {
+            "plugins": Object {
+              "legend": null,
+              "title": Object {
+                "display": true,
+                "text": "Last 7 days user entry vs week before 7 days entry",
+              },
+            },
+            "responsive": true,
+          }
+        }
+      />
+    </div>
+  </div>
+</Fragment>
+`;

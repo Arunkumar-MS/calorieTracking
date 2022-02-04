@@ -43,7 +43,7 @@ const withAuth = <P extends Base>(Component: React.ComponentType<P>, roles: Role
             }
         }, []);
 
-        if(!token){
+        if(!token) {
             return <Spinner />;
         }
 

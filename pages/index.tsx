@@ -25,7 +25,7 @@ export const Home = () => {
     <>
       {!data && !error && <Spinner className='mt-20'/>}
       {data && <UserFlow />}
-      {error && <div className='text-center text-gray-500'> Something went worng please try later! </div>}
+      {!data && error && <div className='text-center text-gray-500'> Something went worng please try later! </div>}
     </>
 
   )

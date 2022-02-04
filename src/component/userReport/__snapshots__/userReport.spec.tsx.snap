@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserReport page should render properly 1`] = `
+<div>
+  <div
+    data-test-id="report-page-title"
+  >
+     Your last 7 days calorie consumption report  
+  </div>
+  <ForwardRef(LoadableComponent)
+    data={
+      Object {
+        "datasets": Array [
+          Object {
+            "backgroundColor": Array [
+              "green",
+              "green",
+              "green",
+              "green",
+              "green",
+              "green",
+            ],
+            "data": Array [
+              201.6,
+              189,
+              303.4,
+              3262.5,
+              1196.15,
+              685.0600000000001,
+            ],
+          },
+        ],
+        "labels": Array [
+          "31:01:2022",
+          "30:01:2022",
+          "29:01:2022",
+          "03:02:2022",
+          "01:02:2022",
+          "02:02:2022",
+        ],
+      }
+    }
+    options={
+      Object {
+        "plugins": Object {
+          "legend": null,
+          "title": Object {
+            "display": true,
+            "text": "Last 7 days report",
+          },
+        },
+        "responsive": true,
+      }
+    }
+  />
+</div>
+`;

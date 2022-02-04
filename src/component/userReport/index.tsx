@@ -1,9 +1,12 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
-import axios from '@Service/core/axios';
 import { useAppSelector } from '@Store/hooks';
 import { selectCalorieLimit } from '@Reducers/userSlice/userSlice';
 import Spinner from '@Component/spinner';
+import useSWR from 'swr';
+import fetcher from '@Service/core/fetcher';
+import { SWR_OPTIONS } from 'src/constant/swr';
+
 const BarChart = dynamic(() => import('@Component/charts/barChart'));
 
 const options = {
@@ -19,17 +22,13 @@ const options = {
 
 
 const UserReport = () => {
-    const [userReport, setUserReport] = React.useState<any>({});
     const calorieLimit = useAppSelector(selectCalorieLimit);
-    const [isLoading, setIsLoading] = React.useState(true);
-
-    React.useEffect(() => {
-        setIsLoading(true);
-        axios.get('/report/getuserReport').then((d) => {
-            setUserReport(d.data);
-            setIsLoading(false);
-        });
-    }, []);
+    const { data: userReport, error } = useSWR('/report/getuserReport', fetcher, { ...SWR_OPTIONS });
+    const isLoading = !userReport;
+    
+    if (isLoading) {
+        return <Spinner />;
+    }
 
     const labels = Object.keys(userReport).reverse();
 
@@ -44,11 +43,11 @@ const UserReport = () => {
     };
     return (
         <div>
-            {isLoading && <Spinner />}
             {!isLoading && <>
             <div data-test-id="report-page-title"> Your last 7 days calorie consumption report  </div>
             <BarChart data={barChartdata} options={options} />
             </>}
+            {!userReport && error && <div className='text-center text-gray-500'> Something went worng please try later! </div>}
         </div>
     );
 }

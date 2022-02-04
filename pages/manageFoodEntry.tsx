@@ -37,7 +37,7 @@ export const ManageFoodEntry = () => {
               Nothing here to show! Please add new entry to see more details.
             </div>
           )}
-          {error && <div className='text-red-600 text-lg mt-20 text-center'>
+          {!data && error && <div className='text-red-600 text-lg mt-20 text-center'>
             Somthing went wrong please try later.
           </div>}
         </div>

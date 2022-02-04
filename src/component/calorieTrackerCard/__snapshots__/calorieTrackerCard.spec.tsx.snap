@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CalorieTrackerCard page should render properly 1`] = `
+<Fragment>
+  <div
+    className="p-2 flex items-center bg-white shadow justify-between md:flex-col flex-row undefined"
+  >
+    <div
+      className="flex items-center md:flex-col flex-row"
+    >
+      <div
+        className="flex items-center justify-center md:flex-col flex-row"
+      >
+        <svg
+          className="w-20 h-20"
+        >
+          <circle
+            className="text-gray-300"
+            cx={40}
+            cy={40}
+            fill="transparent"
+            r={30}
+            stroke="#80808040"
+            strokeWidth={5}
+          />
+          <circle
+            className="text-blue-600"
+            cx={40}
+            cy={40}
+            fill="transparent"
+            r={30}
+            stroke="red"
+            strokeDasharray={188.49555921538757}
+            strokeDashoffset={0}
+            strokeLinecap="round"
+            strokeWidth={5}
+          />
+        </svg>
+        <img
+          alt="cutlery"
+          className="absolute h-8 w-8"
+          src="./cutlery.svg"
+        />
+      </div>
+      <div
+        className="text-center"
+      >
+        292.0
+         of 
+        200.0
+         Cal
+      </div>
+      <div
+        className="text-center text-red-700"
+      >
+        Day limit exceeded! 
+      </div>
+    </div>
+    <div
+      className="flex items-center md:mt-3 cursor-pointer"
+      data-test-id="home-page-add-item-card"
+      onClick={[Function]}
+    >
+      <span
+        className="mr-3"
+      >
+        Add item
+      </span>
+      <PlusCircle
+        className="h-8 w-8"
+        fill="red"
+      />
+    </div>
+  </div>
+</Fragment>
+`;

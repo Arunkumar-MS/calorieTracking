@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WithAuth page should render properly 1`] = `
+<Layout>
+  <Component
+    user={
+      Object {
+        "calorieLimit": 123,
+        "name": "sd",
+        "role": "admin",
+        "userId": "23234",
+      }
+    }
+  />
+</Layout>
+`;

@@ -1,21 +1,21 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
-import axios from '@Service/core/axios';
 import Spinner from '@Component/spinner';
+import fetcher from '@Service/core/fetcher';
+import { SWR_OPTIONS } from 'src/constant/swr';
+import useSWR from 'swr';
 const BarChart = dynamic(() => import('@Component/charts/barChart'));
 
 const AdminReport = () => {
-    const [adminReport, setAdminReport] = React.useState<any>({});
-    const [isLoading, setIsLoading] = React.useState(true);
 
-    React.useEffect(() => {
-        axios.get('/report/getAdminReport').then((d) => {
-            setAdminReport(d.data);
-            setIsLoading(false);
-        });
-    }, []);
+    const { data: adminReport, error } = useSWR('/report/getAdminReport', fetcher, { ...SWR_OPTIONS });
+    const isLoading = !adminReport;
 
-
+    if (isLoading) {
+        return (<div className='mt-5'>
+            {isLoading && <Spinner />}
+        </div>);
+    }
 
     const options = {
         responsive: true,
@@ -71,7 +71,6 @@ const AdminReport = () => {
     return (
         <>
             <div className='mt-5'>
-                {isLoading && <Spinner />}
                 {!isLoading && (
                     <>
                         <BarChart data={avarageUserCaloriesChartdata} options={options} />
@@ -80,6 +79,7 @@ const AdminReport = () => {
                         </div>
                     </>)
                 }
+                {!adminReport && error && <div className='text-center text-gray-500'> Something went worng please try later! </div>}
             </div>
         </>
     )
