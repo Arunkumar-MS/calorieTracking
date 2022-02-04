@@ -18,7 +18,8 @@
     "winston": "^3.5.1"
   },
   "scripts": {
-    "test": "jest --runInBand ./test"
+    "test": "jest --runInBand ./test",
+    "start": "node app.js"
   },
   "devDependencies": {
     "jest": "^27.4.7",
