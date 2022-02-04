@@ -19,7 +19,7 @@
   },
   "scripts": {
     "test": "jest --runInBand ./test",
-    "start": "node app.js"
+    "start": "NODE_ENV=production node app.js"
   },
   "devDependencies": {
     "jest": "^27.4.7",
