@@ -1,3 +1,4 @@
+import React from "react";
 import { Menu } from 'src/component/menu'
 
 const NavBar = () => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {
   useAppDispatch,
 } from '@Store/hooks';
@@ -11,11 +11,10 @@ import { SWR_OPTIONS } from 'src/constant/swr';
 import fetcher from '@Service/core/fetcher';
 
 
-const Home = () => {
+export const Home = () => {
 
   const dispatch = useAppDispatch();
   const { data, error } = useSWR('/tracker/getfoodEntry', fetcher, { ...SWR_OPTIONS });
-
   React.useEffect(() => {
     if(data) {
       dispatch(updateEntry(data));
@@ -31,5 +30,6 @@ const Home = () => {
 
   )
 }
+
 
 export default withAuth(Home, ['admin','user']);

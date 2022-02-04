@@ -4,7 +4,7 @@ import cookies from "js-cookie";
 import { useRouter } from 'next/router'
 
 
-const Login = () => {
+export const Login = () => {
   const router = useRouter()
   const [token, setToken] = React.useState('');
   const [error, setError] = React.useState('');
