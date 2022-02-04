@@ -3,22 +3,26 @@ import { shallowToJson } from "enzyme-to-json";
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import { ManageFoodEntry } from '../pages/manageFoodEntry';
+import * as redux from 'react-redux';
 
-const mockDispatch = jest.fn();
-jest.mock('react-redux', () => ({
-    useSelector: jest.fn(),
-    useDispatch: () => mockDispatch
-}));
+const foodList = [
+    { _id: 1, servingUnit: 'slice', servingQty: 1, servingWeightGrams: 343, url: 'http://asdasd.com', calories: 123, userId: '23423234', addedDate: 234234232 },
+    { _id: 2, servingUnit: 'slice', servingQty: 1, servingWeightGrams: 343, url: 'http://asdasd.com', calories: 123, userId: '23423234', addedDate: 234234232 },
+];
 
+jest
+  .spyOn(redux, 'useSelector')
+  .mockReturnValueOnce(foodList)
+
+jest
+  .spyOn(redux, 'useDispatch')
+  .mockReturnValueOnce(jest.fn())
 
 jest.mock("swr", () => ({
     __esModule: true,
     namedExport: jest.fn(),
     default: () => ({
-        data: [
-            { _id: 1, servingUnit: 'slice', servingQty: 1, servingWeightGrams: 343, url: 'http://asdasd.com', calories: 123, userId: '23423234', addedDate: 234234232 },
-            { _id: 2, servingUnit: 'slice', servingQty: 1, servingWeightGrams: 343, url: 'http://asdasd.com', calories: 123, userId: '23423234', addedDate: 234234232 },
-        ],
+        data: foodList,
     }),
 }));
 
