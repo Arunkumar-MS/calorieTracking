@@ -5,7 +5,7 @@ import { useAppDispatch } from "@Store/hooks";
 import getUnixTime from "date-fns/getUnixTime";
 import { updateEntry } from "@Reducers/foodDetailsSlice/foodDetailsSlice";
 import dynamic from "next/dynamic";
-const DatePicker = dynamic(()=> import("@Component/datePicker"))
+const DatePicker = dynamic(() => import("@Component/datePicker"))
 
 export interface FoodAddCardProps {
     servingQty: number;
@@ -25,12 +25,14 @@ const FoodAddCard = (props: FoodAddCardProps) => {
     const [selectedQty, setQty] = React.useState(1);
     const [selectedDate, setSelectedDate] = React.useState(new Date());
     const dispatch = useAppDispatch();
+    const [error, setError] = React.useState('');
 
     const onChange = (n: number) => {
         setQty(n);
     }
 
     const onAdd = () => {
+        setError('');
         const data = {
             addedDate: getUnixTime(selectedDate),
             consumedQty: selectedQty.toString(),
@@ -40,10 +42,14 @@ const FoodAddCard = (props: FoodAddCardProps) => {
             name: props.name,
             servingUnit: props.servingUnit,
         }
-        saveFood(data).then((list) => {
-            dispatch(updateEntry(list.data));
-            props.onAdd();
-        });
+        saveFood(data)
+            .then((list) => {
+                dispatch(updateEntry(list.data));
+                props.onAdd();
+            })
+            .catch(() => {
+                setError('Somthing went wrong please try again!');
+            });
     }
 
     return (
@@ -53,6 +59,7 @@ const FoodAddCard = (props: FoodAddCardProps) => {
                 <div>{(props.calories * selectedQty).toFixed(2)} cal</div>
             </div>
             <div className="pl-5 w-5/6 pr-5">
+                {error && <div className="text-xs text-center font-medium text-red-500"> {error} </div>}
                 <p className="font-medium capitalize text-center" data-test-id="suggesion-food-modal-selected-food-name">{props.name}</p>
                 <p className="flex justify-between"> <span>Serving Qty </span> <span> {props.servingQty}</span></p>
                 <p className="flex justify-between"> <span>Serving unit </span> <span> {props.servingUnit}</span></p>

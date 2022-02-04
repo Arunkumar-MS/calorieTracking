@@ -1,0 +1,1 @@
+module.exports.AUTH_HEADER_KEY ='Authorization';

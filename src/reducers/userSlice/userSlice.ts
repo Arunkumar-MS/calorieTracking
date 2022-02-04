@@ -43,6 +43,7 @@ export const {
 
 export const selectName = (state: RootState) => state.user.name;
 export const selectUser = (state: RootState) => state.user;
+export const selectUserId = (state: RootState) => state.user.userId;
 export const selectRole = (state: RootState) => state.user.role; 
 export const selectCalorieLimit = (state: RootState) => state.user.calorieLimit; 
 

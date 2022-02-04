@@ -10,11 +10,13 @@ import withAuth from 'src/authHoc';
 import { SWR_OPTIONS } from 'src/constant/swr';
 import fetcher from '@Service/core/fetcher';
 
-
 export const Home = () => {
 
   const dispatch = useAppDispatch();
-  const { data, error } = useSWR('/tracker/getfoodEntry', fetcher, { ...SWR_OPTIONS });
+
+  const { data, error, isValidating } = useSWR('/tracker/getfoodEntry', fetcher, { ...SWR_OPTIONS });
+
+
   React.useEffect(() => {
     if(data) {
       dispatch(updateEntry(data));
@@ -23,9 +25,10 @@ export const Home = () => {
 
   return (
     <>
-      {!data && !error && <Spinner className='mt-20'/>}
-      {data && <UserFlow />}
-      {!data && error && <div className='text-center text-gray-500'> Something went worng please try later! </div>}
+      <UserFlow />
+      {!data?.length && !error &&  isValidating && <Spinner className='mt-20'/>}
+      {!data?.length && error && <div className='text-center text-gray-500'> Something went worng please try later! </div>}
+      {!data?.length && !error && !isValidating && <div className='text-center text-gray-500'> Nothing here to show at the moment. Please add food entry! </div>}
     </>
 
   )

@@ -1,38 +1,33 @@
-const express = require("express");
-const router = express.Router();
 const ObjectId = require('mongodb').ObjectId;
 const UserModel = require('../schema/userSchema');
 const AuthModel = require('../schema/authSchema');
-const { AUTH_HEADER_KEY }  = require('../constant');
 
-router.get("/getUser", async (req, res) => {
-    const authToken = req.get(AUTH_HEADER_KEY);
+const getUser = async (req, res) => {
+    const authToken = req.get('Authorization');
     if (!authToken) {
         logger.warn('Invalid token');
-        res.status(400).send('Invalid token');
-        return
+        return res.status(400).send('Invalid token');
     }
+
     try {
         const userAuth = await getUserAuthInfo(authToken);
         if (userAuth) {
             const user = await getUser(userAuth.userId);
             if (user) {
-             res.status(200).send(user);
-             return
+                res.status(200).send(user);
+                return
             }
         }
-         logger.warn('Invalid user');
-         res.status(400).send('Invalid user');
-         return
+        logger.warn('Invalid user');
+        return res.status(400).send('Invalid user');
     }
     catch (e) {
-        logger.error('Something went wrong',e);
-         res.status(500).send('Something went wrong');
-         return;
+        logger.error('Something went wrong', e);
+        return res.status(500).send('Something went wrong');
     }
-});
+}
 
-router.post("/login", async (req, res) => {
+const login = async (req, res) => {
     const token = req.body.token;
     if (!token) {
         res.status(400).send('Invalid token');
@@ -45,7 +40,7 @@ router.post("/login", async (req, res) => {
     } else {
         return res.status(400).send('Invalid token');
     }
-});
+}
 
 
 const getUserAuthInfo = async (token) => {
@@ -55,7 +50,7 @@ const getUserAuthInfo = async (token) => {
 
 
 const getUser = async (id) => {
-    
+
     const query = { _id: ObjectId(id) };
     const user = await UserModel.findOne(query);
     return user;
@@ -78,7 +73,7 @@ const getUserByToken = async (authToken) => {
 
 
 module.exports = {
-    authRouter: router,
+    login,
     getUser,
     getUserByToken,
     getUserAuthInfo,

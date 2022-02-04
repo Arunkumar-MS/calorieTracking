@@ -21,9 +21,11 @@ const FoodEntry: FC<FoodEntryProps> = ({ onClose }) => {
     const [isNutritionDetailsLoading, setNutritionDetailsLoading] = React.useState(false);
     const [foodName, setFoodName] = React.useState('');
     const [searchTerm, setSearchTerm] = React.useState('');
+    const [error, setError] = React.useState('');
 
     const optimizedFetch = React.useCallback(debounce((query) => {
         setNutritionLoading(true);
+        setError('');
         fetchSuggestion(query)
             .then((nutritionSuggestion) => {
                 const { data } = nutritionSuggestion;
@@ -31,6 +33,7 @@ const FoodEntry: FC<FoodEntryProps> = ({ onClose }) => {
                 setNutritionLoading(false);
             })
             .catch(() => {
+                setError('There is some issue with our suggestion! Please try later.')
                 setNutritionLoading(false);
             });
     }, 300), []);
@@ -45,11 +48,17 @@ const FoodEntry: FC<FoodEntryProps> = ({ onClose }) => {
     }
 
     const onSelection = async (item: suggestionItem) => {
-        setFoodName(item.food_name);
-        setNutritionDetailsLoading(true);
-        const nutrition = await fetchNutrition(item.food_name);
-        setnutritionDetails((nutrition?.data?.foods || [])[0]);
-        setNutritionDetailsLoading(false);
+        setError('');
+        try {
+            setFoodName(item.food_name);
+            setNutritionDetailsLoading(true);
+            const nutrition = await fetchNutrition(item.food_name);
+            setnutritionDetails((nutrition?.data?.foods || [])[0]);
+            setNutritionDetailsLoading(false);
+        } catch(e) {
+            setError('Something went wrong while fetching nutrition info! Please try later.');
+            setNutritionDetailsLoading(false);
+        }
     }
 
     const onSuccesfullAdd = () => {
@@ -93,7 +102,7 @@ const FoodEntry: FC<FoodEntryProps> = ({ onClose }) => {
 
                 <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle w-96 sm:max-w-sm sm:w-full sm:p-6">
                     <div className="flex -mt-5 -mr-5 justify-end" onClick={onClose}> <CloseIcon className="h-10 w-10 fill-current text-gray-400 hover:text-gray-600" /> </div>
-
+                    {error && <div className="text-xs text-center font-medium text-red-500 m-1"> {error} </div>}
                     <div className="">
                         <div className="">
                             <input data-test-id="home-page-add-item-modal-input" onChange={onChangeHandler} type="text" className="block w-full drop-shadow-md border border-transparent rounded-md px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600" placeholder="Search food" />
@@ -105,7 +114,7 @@ const FoodEntry: FC<FoodEntryProps> = ({ onClose }) => {
                         {isNutritionLoading && <Spinner className="mt-3" />}
                     </div>
                     {foodName && (
-                        <div className=" shadow h-72 bg-white rounded-lg relative mt-5 items-center flex border border-slate-400 -ml-3 -mr-3 -mb-3 sm:-ml-5 sm:-mr-5 sm:-mb-5">
+                        <div className={`shadow h-72 bg-white rounded-lg relative mt-5 items-center flex border border-slate-400 -ml-3 -mr-3 -mb-3 sm:-ml-5 sm:-mr-5 sm:-mb-5 ${isNutritionDetailsLoading ? 'justify-center' : null}`}>
                             {isNutritionDetailsLoading && <Spinner className="pt-10" />}
                             {!isNutritionDetailsLoading && nutritionDetails && <FoodAddCard {...mapNutrition()} />}
                         </div>

@@ -18,7 +18,6 @@ export const Menu = () => {
 
     const isAdmin = user.role == 'admin';
 
-
     const signOut = () => {
         cookies.remove('token');
         dispatch(resetUserStore());
@@ -38,7 +37,7 @@ export const Menu = () => {
                 <Link href="/inviteFriend">
                     <MenuItem title="Invite a friend" dataTestId='menu-invite-friend'/>
                 </Link>
-                <MenuItem title={<span className="flex md:flex-col "> <span className="hidden md:block"> {`Hi! ${user.name}`}</span> <span data-test-id="menu-sign-out"> Sign out</span></span>} onClick={signOut} />
+                <MenuItem title={<span className="flex md:flex-col text-center "> <span className="hidden md:block"> {`Hi! ${user.name}`}</span> <span className="md:text-xs" data-test-id="menu-sign-out"> Sign out</span></span>} onClick={signOut} />
             </>
         )
     }
