@@ -5,11 +5,11 @@
 #### How take code to local
 - Goto terminal and paste below clone command 
     ```sh
-    git@git.toptal.com:screening/Arunkumar.git
+    git clone git@git.toptal.com:screening/Arunkumar.git
     ```
 
 #### Backend API
-- Now go inside server folder
+- Now go inside `server` folder
 - Install packges by running `yarn`
 - Run Api by running `yarn start`
 - Now you should see message `Server is Running @ 3001`
@@ -18,7 +18,7 @@
 #### FE React APP
 - Open new terminal Start with root folder of this project
 - Install packges by running `yarn`
-- Run Api by running `yarn start`
+- Run webapp by running `yarn start`
 - Now you should see `started server on 0.0.0.0:3000, url: http://localhost:3000`
 - Just vist `http://localhost:3000` you should be able to start using the app now.
 
