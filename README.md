@@ -3,7 +3,7 @@
 ### Below are the stpes help you to run BE API,FE web app, E2E test and unit tests
 
 #### How take code to local
-- Goto termial and paste below clone command 
+- Goto terminal and paste below clone command 
     ```sh
     git@git.toptal.com:screening/Arunkumar.git
     ```
@@ -13,10 +13,10 @@
 - Install packges by running `yarn`
 - Run Api by running `yarn start`
 - Now you should see message `Server is Running @ 3001`
-- Yay! Yay we are done
+
 
 #### FE React APP
-- Open new termial Start with root folder of this project
+- Open new terminal Start with root folder of this project
 - Install packges by running `yarn`
 - Run Api by running `yarn start`
 - Now you should see `started server on 0.0.0.0:3000, url: http://localhost:3000`
