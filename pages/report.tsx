@@ -8,7 +8,7 @@ const AdminReport = dynamic(() => import('@Component/adminReport'));
 const UserReport = dynamic(() => import('@Component/userReport'));
 
 
-const ReportComponent = () => {
+export const ReportComponent = () => {
     const user = useSelector(selectUser);
     const isAdmin = user?.role === 'admin';
     const [selectedTab, setSelectedTab] = React.useState('user');

@@ -7,6 +7,8 @@ module.exports = {
     transform: {
         "^.+\\.tsx?$": "ts-jest"
     },
+    snapshotSerializers: ["enzyme-to-json/serializer"],
+    preset: "ts-jest",
     testMatch: [
         "**/*.(test|spec).(ts|tsx)"
     ],

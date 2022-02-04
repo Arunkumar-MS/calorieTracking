@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ManageFoodEntry page should render properly 1`] = `
+<Fragment>
+  <div
+    className="flex items-center flex-col"
+  >
+    <div
+      className="cursor-pointer px-3 py-3 m-5 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      data-test-id="manageFoodEntryPage-add-new-food-entry"
+      onClick={[Function]}
+    >
+      Add new food entry
+    </div>
+    <FoodEntryList
+      className="w-full"
+      isAdmin={true}
+      list={
+        Array [
+          Object {
+            "_id": 1,
+            "addedDate": 234234232,
+            "calories": 123,
+            "servingQty": 1,
+            "servingUnit": "slice",
+            "servingWeightGrams": 343,
+            "url": "http://asdasd.com",
+            "userId": "23423234",
+          },
+          Object {
+            "_id": 2,
+            "addedDate": 234234232,
+            "calories": 123,
+            "servingQty": 1,
+            "servingUnit": "slice",
+            "servingWeightGrams": 343,
+            "url": "http://asdasd.com",
+            "userId": "23423234",
+          },
+        ]
+      }
+    />
+  </div>
+</Fragment>
+`;

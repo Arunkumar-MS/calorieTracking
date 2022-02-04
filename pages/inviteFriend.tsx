@@ -8,7 +8,7 @@ import Spinner from "@Component/spinner";
 import { DEFAULT_CALORIES_LIMIT } from "src/constant/config";
 
 
-const InviteFriendComponent = () => {
+export const InviteFriendComponent = () => {
     const router = useRouter()
     const [isLoading, setLoading] = React.useState(false);
     const [error, setError] = React.useState('');
@@ -18,6 +18,7 @@ const InviteFriendComponent = () => {
         handleSubmit,
         formState: { errors }
     } = useForm();
+    
     const onSubmit = (data: Partial<AddUser>) => {
         setLoading(true);
         const req = {
