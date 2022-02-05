@@ -5,6 +5,7 @@ import { useAppDispatch } from "@Store/hooks";
 import getUnixTime from "date-fns/getUnixTime";
 import { updateEntry } from "@Reducers/foodDetailsSlice/foodDetailsSlice";
 import dynamic from "next/dynamic";
+import Spinner from "@Component/spinner";
 const DatePicker = dynamic(() => import("@Component/datePicker"))
 
 export interface FoodAddCardProps {
@@ -25,6 +26,7 @@ const FoodAddCard = (props: FoodAddCardProps) => {
     const [selectedQty, setQty] = React.useState(1);
     const [selectedDate, setSelectedDate] = React.useState(new Date());
     const dispatch = useAppDispatch();
+    const [isLoading, seIsLoading] = React.useState(false);
     const [error, setError] = React.useState('');
 
     const onChange = (n: number) => {
@@ -33,6 +35,7 @@ const FoodAddCard = (props: FoodAddCardProps) => {
 
     const onAdd = () => {
         setError('');
+        seIsLoading(true);
         const data = {
             addedDate: getUnixTime(selectedDate),
             consumedQty: selectedQty.toString(),
@@ -46,9 +49,11 @@ const FoodAddCard = (props: FoodAddCardProps) => {
             .then((list) => {
                 dispatch(updateEntry(list.data));
                 props.onAdd();
+                seIsLoading(false);
             })
             .catch(() => {
                 setError('Somthing went wrong please try again!');
+                seIsLoading(false);
             });
     }
 
@@ -70,9 +75,11 @@ const FoodAddCard = (props: FoodAddCardProps) => {
                 <div className="border border-slate-400 border-dashed	 " />
                 <p className="flex justify-between mt-2 items-center"> <span>Select serving qty </span> <span> <InputNumberCounter onChange={onChange} /> </span></p>
                 <p>
-                    <button data-test-id="suggesion-food-modal-add-button" onClick={onAdd} className="w-full mt-2 bg-blue-500 rounded-lg font-bold text-white text-center px-4 py-3 transition duration-300 ease-in-out hover:bg-blue-600">
+                    <button disabled={isLoading} data-test-id="suggesion-food-modal-add-button" onClick={onAdd} className="w-full mt-2 bg-blue-500 rounded-lg font-bold text-white text-center px-4 py-3 transition duration-300 ease-in-out hover:bg-blue-600">
                         Add
-                    </button></p>
+                    </button>
+                    {isLoading && <Spinner className="h-4" />}
+                </p>
             </div>
         </div>
     )

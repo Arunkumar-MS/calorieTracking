@@ -5,39 +5,34 @@ import cookies from "js-cookie";
 import {
     useAppSelector,
 } from '@Store/hooks';
-import { resetUserStore, selectUser } from "@Reducers/userSlice/userSlice";
+import { selectUser } from "@Reducers/userSlice/userSlice";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
-import { resetfoodDetailsStore } from "@Reducers/foodDetailsSlice/foodDetailsSlice";
 
 export const Menu = () => {
     const [isOpen, setIsOpen] = React.useState(false);
     const router = useRouter();
     const user = useAppSelector(selectUser);
-    const dispatch = useDispatch();
 
     const isAdmin = user.role == 'admin';
 
     const signOut = () => {
         cookies.remove('token');
-        dispatch(resetUserStore());
-        dispatch(resetfoodDetailsStore())
-        router.push('./login');
     }
 
     const renderMenuItems = () => {
         return (
             <>
                 <Link href="/report">
-                    <MenuItem title="View report"  dataTestId='menu-view-report' />
+                    <MenuItem title="View report" dataTestId='menu-view-report' />
                 </Link>
                 {isAdmin && <Link href="/manageFoodEntry">
                     <MenuItem title="Manage food entries" dataTestId='menu-manage-food-entries' />
                 </Link>}
                 <Link href="/inviteFriend">
-                    <MenuItem title="Invite a friend" dataTestId='menu-invite-friend'/>
+                    <MenuItem title="Invite a friend" dataTestId='menu-invite-friend' />
                 </Link>
-                <MenuItem title={<span className="flex md:flex-col text-center "> <span className="hidden md:block"> {`Hi! ${user.name}`}</span> <span className="md:text-xs" data-test-id="menu-sign-out"> Sign out</span></span>} onClick={signOut} />
+
+                <MenuItem linkTo={`${window.location.origin}/login`} title={<span className="flex md:flex-col text-center"> <span className="hidden md:block"> {`Hi! ${user.name}`}</span> <span className="md:text-xs" data-test-id="menu-sign-out"> Sign out</span></span>} onClick={signOut} />
             </>
         )
     }

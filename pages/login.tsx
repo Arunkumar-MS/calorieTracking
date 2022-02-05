@@ -2,24 +2,29 @@ import axios from "@Service/core/axios";
 import React from "react";
 import cookies from "js-cookie";
 import { useRouter } from 'next/router'
+import Spinner from "@Component/spinner";
 
 
 export const Login = () => {
   const router = useRouter()
   const [token, setToken] = React.useState('');
   const [error, setError] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const onLoginHandler = () => {
     if(!token) {
       setError('Input field is required. Please enter toekn!');
       return;
     }
-    setError('')
+    setError('');
+    setIsLoading(true)
     axios.post('/auth/login', { token }).then((d) => {
       cookies.set('token', token);
       router.push('/');
+      setIsLoading(false);
     }).catch((e) => {
       setError('Somthing went wrong. Please try again!')
+      setIsLoading(false);
     });
   }
 
@@ -54,13 +59,15 @@ export const Login = () => {
                   <input data-test-id="login-page-token-input" id="cta-token" type="email" className="block w-full border border-transparent rounded-md px-5 py-3 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600" placeholder="Enter your token" onChange={onChangeHandler} />
                 </div>
                 <div className="mt-4 sm:mt-0 sm:ml-3">
-                  <button data-test-id="login-page-submit" type="button" onClick={onLoginHandler} className="block w-full rounded-md border border-transparent px-5 py-3 bg-indigo-500 text-base font-medium text-white shadow hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 sm:px-10">Login</button>
+                  <button disabled={isLoading} data-test-id="login-page-submit" type="button" onClick={onLoginHandler} className="block w-full rounded-md border border-transparent px-5 py-3 bg-indigo-500 text-base font-medium text-white shadow hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 sm:px-10">Login</button>
+                  {isLoading && <Spinner />}
                 </div>
               </div>
               {error && <div className=" text-center mt-5">
                 <div className="text-gray-300	font-medium">{error}</div>
               </div>
               }
+
             </div>
           </div>
         </div>
