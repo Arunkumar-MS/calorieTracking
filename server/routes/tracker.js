@@ -3,17 +3,41 @@ const ObjectId = require('mongodb').ObjectId;
 const router = express.Router();
 const authorization = require('../middleware/authorization');
 const UserModel = require('../schema/userSchema');
-
 const trackerService = require('../service/tracker');
+const { validationResult, check } = require('express-validator');
 
+const foodEntryValidation = [
+    check('name').exists(),
+    check('consumedWeightGrams').isNumeric(),
+    check('consumedCalories').isNumeric(),
+    check('consumedQty').isNumeric(),
+    check('imageUrl').isURL(),
+    check('addedDate').isNumeric()
+];
 
-router.post("/addFood", authorization(['admin', 'user']), async (req, res, next) => {
+const validate = validations => {
+    return async (req, res, next) => {
+        await Promise.all(validations.map(validation => validation.run(req)));
+
+        const errors = validationResult(req);
+        if (errors.isEmpty()) {
+            return next();
+        }
+
+        res.status(400).json({
+            errors: errors.array()
+        });
+    };
+};
+
+router.post("/addFood", authorization(['admin', 'user']), validate(foodEntryValidation), async (req, res, next) => {
     const userId = req.ctx.user['_id'];
     const content = {
         userId,
         emailId: req.ctx.user['emailId'],
         ...req.body,
     };
+
     try {
         const response = await trackerService.addFood({ ...content, userId });
         return res.status(200).send(response);
@@ -26,7 +50,7 @@ router.post("/addFood", authorization(['admin', 'user']), async (req, res, next)
 
 
 
-router.post("/addOtherUserFoodEntry", authorization(['admin']), async (req, res, next) => {
+router.post("/addOtherUserFoodEntry", authorization(['admin']), validate(foodEntryValidation), async (req, res, next) => {
 
     const { userId } = req.body;
     if (!ObjectId.isValid(userId)) {
@@ -49,7 +73,7 @@ router.post("/addOtherUserFoodEntry", authorization(['admin']), async (req, res,
 
 
 
-router.post("/editUserFoodEntry", authorization(['admin']), async (req, res, next) => {
+router.post("/editUserFoodEntry", authorization(['admin']), validate(foodEntryValidation), async (req, res, next) => {
     const { userId, _id } = req.body;
     try {
         const user = await UserModel.findById(userId);
@@ -72,7 +96,12 @@ router.post("/editUserFoodEntry", authorization(['admin']), async (req, res, nex
 
 
 
-router.post("/deleteUserFoodEntry", authorization(['admin']), async (req, res, next) => {
+router.post("/deleteUserFoodEntry", authorization(['admin']), check('userId').exists(), check('_id').exists(), async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ message: errors.array() });
+    }
+
     const { userId, _id } = req.body;
     try {
         const response = await trackerService.deleteUserFoodEntry({ userId, _id });

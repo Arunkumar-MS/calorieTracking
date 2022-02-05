@@ -10,6 +10,7 @@ import withAuth from 'src/authHoc';
 import { SWR_OPTIONS } from 'src/constant/swr';
 import fetcher from '@Service/core/fetcher';
 import { User } from './home.types';
+
 interface Props {
   user: User;
 }
