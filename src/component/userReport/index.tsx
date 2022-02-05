@@ -6,6 +6,7 @@ import Spinner from '@Component/spinner';
 import useSWR from 'swr';
 import fetcher from '@Service/core/fetcher';
 import { SWR_OPTIONS } from 'src/constant/swr';
+import { sortReportDate } from 'src/util/dateUtils';
 
 const BarChart = dynamic(() => import('@Component/charts/barChart'));
 
@@ -25,19 +26,21 @@ const UserReport = () => {
     const calorieLimit = useAppSelector(selectCalorieLimit);
     const { data: userReport, error } = useSWR('/report/getuserReport', fetcher, { ...SWR_OPTIONS });
     const isLoading = !userReport;
-    
-    if (isLoading) {
+    const sorted = React.useMemo(() => sortReportDate(Object.keys(userReport || {})), [userReport]);
+    if (isLoading && !error ) {
         return <Spinner />;
     }
 
-    const labels = Object.keys(userReport).reverse();
-
+    if (!userReport && error) {
+        return (<div className='text-center text-gray-500'> Something went worng please try later! </div>)
+    }
+  
     const barChartdata = {
-        labels,
+        labels: sorted,
         datasets: [
             {
-                data: labels.map((item) => userReport[item]),
-                backgroundColor: labels.map((item) => userReport[item] >= calorieLimit ? 'red' : 'green'),
+                data: sorted.map((item) => userReport[item]),
+                backgroundColor: sorted.map((item) => userReport[item] >= calorieLimit ? 'red' : 'green'),
             }
         ],
     };

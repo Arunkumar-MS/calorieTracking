@@ -22,10 +22,10 @@ export const ReportComponent = () => {
                         <nav className="-mb-px flex space-x-8 items-center" aria-label="Tabs">
                             {/* Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" */}
                             <a onClick={() => setSelectedTab('user')} href="#" className={selectedTab === 'user' ? selectedClass : nonSelectedClass}>
-                                Youre report
+                                Your report
                             </a>
                             <a data-test-id="report-page-admin-report" onClick={() => setSelectedTab('admin')} href="#" className={selectedTab === 'admin' ? selectedClass : nonSelectedClass}>
-                                All other report
+                                All other reports
                             </a>
                         </nav>
                     </div>

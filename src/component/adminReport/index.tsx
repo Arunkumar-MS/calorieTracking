@@ -4,6 +4,7 @@ import Spinner from '@Component/spinner';
 import fetcher from '@Service/core/fetcher';
 import { SWR_OPTIONS } from 'src/constant/swr';
 import useSWR from 'swr';
+import { sortReportDate } from 'src/util/dateUtils';
 const BarChart = dynamic(() => import('@Component/charts/barChart'));
 
 const AdminReport = () => {
@@ -39,13 +40,14 @@ const AdminReport = () => {
         },
     } as any;
 
-    const labels = adminReport.avgCalForLastSevendays?.map((avgCal: any) => avgCal.date).reverse();
+    let labels = adminReport.avgCalForLastSevendays?.reduce((res: any, avgCal: any) => ({ ...res, [avgCal.date]: avgCal.value }), {});
+    const sorted = sortReportDate(Object.keys(labels));
 
     const avarageUserCaloriesChartdata = {
-        labels,
+        labels: sorted,
         datasets: [
             {
-                data: adminReport.avgCalForLastSevendays?.map((avgCal: any) => avgCal.value).reverse(),
+                data: sorted.map((key: any) => labels[key]),
                 backgroundColor: 'gray',
             }
         ],
@@ -84,6 +86,5 @@ const AdminReport = () => {
         </>
     )
 }
-
 
 export default AdminReport;

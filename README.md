@@ -1,8 +1,8 @@
 # Calorie Tracking Web App & API
 
-### Below are the stpes help you to run BE API,FE web app, E2E test and unit tests
+### Below are the steps help you to run BE API,FE web app, E2E test and unit tests
 
-#### How take code to local
+#### How to take code to local
 - Goto terminal and paste below clone command 
     ```sh
     git clone git@git.toptal.com:screening/Arunkumar.git
@@ -36,7 +36,7 @@
 - Goto `e2eTesting` folder
 - Install packges by running `yarn`
 - Run E2E test by using `yarn e2e`
-- If you what to see visually how its tesing on browser please use below command
+- If you what to see visually how its running on browser please use below command
 - `yarn e2e:ui` 
 
 #### Running FE Unit tests

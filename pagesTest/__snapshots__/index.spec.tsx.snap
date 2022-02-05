@@ -3,5 +3,10 @@
 exports[`Pages should render properly 1`] = `
 <Fragment>
   <UserFlow />
+  <div
+    className="text-center text-gray-500"
+  >
+     Nothing here to show at the moment. Please add food entry! 
+  </div>
 </Fragment>
 `;

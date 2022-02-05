@@ -82,7 +82,7 @@ export const InviteFriendComponent = () => {
                         </div>
                         {!user && (<div className="relative">
                             <div className="text-xl  md:text-2xl text-center font-semibold   antialiased text-white">
-                                Invite youre friend
+                                Invite your Friend
                             </div>
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div className="flex flex-col">

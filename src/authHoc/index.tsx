@@ -20,12 +20,12 @@ const withAuth = <P extends Base>(Component: React.ComponentType<P>, roles: Role
 
     return (hocProps: P) => {
         const token = React.useMemo(() => Cookies.get('token'), []);
-        const { data, error } = useSWR<User, any>('/auth/getUser', fetcher, {...SWR_OPTIONS, ...swrOptions});
+        const { data, error, isValidating } = useSWR<User, any>('/auth/getUser', fetcher, { ...SWR_OPTIONS, ...swrOptions });
         const router = useRouter();
         const dispatch = useDispatch();
 
         const canVist = data?.role && roles.includes(data.role);
-        
+
         React.useEffect(() => {
             if (data?.role) {
                 if (!roles.includes(data.role)) {
@@ -43,7 +43,7 @@ const withAuth = <P extends Base>(Component: React.ComponentType<P>, roles: Role
             }
         }, []);
 
-        if(!token) {
+        if (!token) {
             return <Spinner />;
         }
 
@@ -55,7 +55,7 @@ const withAuth = <P extends Base>(Component: React.ComponentType<P>, roles: Role
 
         return <div>
             {!error && <Spinner />}
-            {error && <div className='text-center text-gray-500'> Something went worng please try later! </div>}
+            {!isValidating && error && <div className='text-center text-gray-500'> Something went worng please try later! </div>}
         </div>;
     }
 }

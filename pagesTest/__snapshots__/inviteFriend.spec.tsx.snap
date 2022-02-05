@@ -42,7 +42,7 @@ exports[`InviteFriend page should render properly 1`] = `
           <div
             className="text-xl  md:text-2xl text-center font-semibold   antialiased text-white"
           >
-            Invite youre friend
+            Invite your Friend
           </div>
           <form
             onSubmit={[Function]}

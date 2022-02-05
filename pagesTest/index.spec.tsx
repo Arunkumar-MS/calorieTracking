@@ -26,7 +26,7 @@ jest.mock("swr", () => ({
 describe('Pages', () => {
     it('should render properly', function () {
         jest.clearAllMocks();
-        const wrap = shallow(<Home />)
+        const wrap = shallow(<Home user={{role: 'admin', name: 'abc', calorieLimit: 2100, userId: '2323'}}/>)
         expect(shallowToJson(wrap)).toMatchSnapshot();
     })
 });
