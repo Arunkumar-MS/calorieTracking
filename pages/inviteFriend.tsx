@@ -18,7 +18,7 @@ export const InviteFriendComponent = () => {
         handleSubmit,
         formState: { errors }
     } = useForm();
-    
+
     const onSubmit = (data: Partial<AddUser>) => {
         setLoading(true);
         const req = {
@@ -33,7 +33,7 @@ export const InviteFriendComponent = () => {
                 if (res.data.status && res.data.status === 406) {
                     setError(res.data.message);
                 } else {
-                    setUser({ name: req.name, token: res.data.token });
+                    setUser({ name: req.name, token: res.data.token, password: res.data.password});
                 }
                 setLoading(false);
             })
@@ -98,7 +98,7 @@ export const InviteFriendComponent = () => {
                                     </div>
                                     <div className="flex justify-center">
                                         <button disabled={isLoading} type="button" onClick={() => router.back()} className="block w-full mr-2 md:mr-8 md:w-80 rounded-md border border-transparent py-1 px-5 md:py-3 bg-indigo-500 text-base font-medium text-white shadow hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 sm:px-10">Go back</button>
-                                        <button data-test-id="invite-friend-page-btc"  disabled={isLoading} type="submit" className="block w-full ml-2 md:w-80 rounded-md border border-transparent px-5 py-3 bg-indigo-500 text-base font-medium text-white shadow hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 sm:px-10">Invite</button>
+                                        <button data-test-id="invite-friend-page-btc" disabled={isLoading} type="submit" className="block w-full ml-2 md:w-80 rounded-md border border-transparent px-5 py-3 bg-indigo-500 text-base font-medium text-white shadow hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 sm:px-10">Invite</button>
                                     </div>
                                     {isLoading && <Spinner />}
                                 </div>
@@ -116,8 +116,9 @@ export const InviteFriendComponent = () => {
                                     <div>
                                         {`Share below toekn with youre friend ${user?.name}`}
                                     </div>
-                                    <p data-test-id="invite-friend-page-token"  className="mt-5 mb-5 italic text-gray-100 break-all	text-sm	">
-                                        {user?.token}
+                                    <p data-test-id="invite-friend-page-token" className="mt-5 mb-5 italic text-gray-100 break-all	text-sm	">
+                                        <div>Password: {user?.password} </div>
+                                        <div>Token: {user?.token}</div>
                                     </p>
                                 </div>
                                 <div className="flex justify-center">

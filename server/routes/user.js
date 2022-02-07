@@ -5,7 +5,7 @@ const userService = require('../service/user');
 
 const { body, validationResult } = require('express-validator');
 
-router.post("/addUser", body('name').isString(), body('emailId').isEmail(), async (req, res) => {
+router.post("/addUser", body('name').isString(), body('role').isString().isIn(["admin","user"]), body('emailId').isEmail(), async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ message: errors.array() });
@@ -13,6 +13,11 @@ router.post("/addUser", body('name').isString(), body('emailId').isEmail(), asyn
     const data = {
         ...req.body,
     }
+
+    if(data.role === "admin" && req.ctx.user.role !== "admin") {
+        return res.status(400).json({message: "You don not have permission to create this role "})
+    }
+
     try {
         const user = await UserModel.find({emailId: req.body.emailId});
         if(user.length) {
