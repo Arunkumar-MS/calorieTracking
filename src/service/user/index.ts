@@ -7,6 +7,7 @@ export interface AddUser {
     createdDate: number;
     token?: string;
     calorieLimit: number;
+    password?: string
     role: Role;
 }
 
