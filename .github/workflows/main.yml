@@ -20,7 +20,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: npm install, lint, build, and test
       run: |
-        sudo apt-get update && sudo apt-get install git yarn -y 
         yarn install
         yarn run test
         yarn run start
