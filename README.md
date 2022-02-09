@@ -5,7 +5,7 @@
 #### How to take code to local
 - Goto terminal and paste below clone command 
     ```sh
-    git clone git@git.toptal.com:screening/Arunkumar.git
+    git clone git@github.com:Arunkumar-MS/calorieTracking.git
     ```
 
 #### Backend API
