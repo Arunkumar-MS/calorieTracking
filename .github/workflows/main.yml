@@ -22,7 +22,7 @@ jobs:
       run: |
         yarn install
         yarn run test
-        yarn run start
+        yarn run build
       env:
         CI: true
         NODE_ENV: development
