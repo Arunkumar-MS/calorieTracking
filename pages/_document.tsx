@@ -9,6 +9,8 @@ class MyDocument extends Document {
   render() {
     return (
       <Html className='h-full bg-gray-100' lang="en-us">
+          <script type="text/javascript" src="http://localhost:3000/~partytown/partytown.js"></script>
+          <script type="text/partytown" src="//tags.tiqcdn.com/utag/agoda/main2018/prod/utag.js"></script>
         <title>
           Caloriese tracker
         </title>
