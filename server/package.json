@@ -16,7 +16,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash.groupby": "^4.6.0",
     "mongodb": "^4.3.1",
-    "mongoose": "^6.1.9",
+    "mongoose": "^6.4.6",
     "winston": "^3.5.1"
   },
   "scripts": {
